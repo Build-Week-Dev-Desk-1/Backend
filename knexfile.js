@@ -25,8 +25,6 @@ module.exports = {
             directory: "./data/seeds",
         },
     },
-
-
     staging: {
         client: 'postgresql',
         connection: {
@@ -58,5 +56,4 @@ module.exports = {
             tableName: 'knex_migrations'
         }
     }
-
 };

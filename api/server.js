@@ -4,7 +4,7 @@ const helmet = require('helmet');
 
 const authenticate = require('../auth/authenticate-middleware.js');
 const authRouter = require('../auth/auth-router.js');
-const jokesRouter = require('../userds/users-router.js');
+const jokesRouter = require('../users/users-router.js');
 
 const server = express();
 
