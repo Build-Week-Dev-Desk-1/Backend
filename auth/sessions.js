@@ -45,20 +45,21 @@ router.post("/login", (req, res) => {
         });
 });
 
-router.get("/logout", (req, res) => {
-    if (req.session) {
-        req.session.destroy(error => {
-            if (error) {
-                res.status(500).json({
-                    errorMessage: "Unable to log out!!",
-                });
-            } else {
-                res.status(204).end();
-            }
-        });
-    } else {
-        res.status(204).end();
-    }
-});
+// router.get("/logout", (req, res) => {
+
+//     if (req.session) {
+//         req.session.destroy(error => {
+//             if (error) {
+//                 res.status(500).json({
+//                     errorMessage: "Unable to log out!!",
+//                 });
+//             } else {
+//                 res.status(204).json({ message: "you are logged out!!!" });
+//             }
+//         });
+//     } else {
+//         res.status(204).end();
+//     }
+// });
 
 module.exports = router;
