@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken"); //1:  npm i jsonwebtoken
 
 const Users = require("../users/users-model.js");
+const secrets = require("../api/secrets.js");
 
 router.post("/register", (req, res) => {
     let user = req.body; // username, password
@@ -17,7 +19,13 @@ router.post("/register", (req, res) => {
 
     Users.add(user)
         .then(saved => {
-            res.status(201).json(saved);
+            const token = generateToken(saved)
+            res.status(201).json({
+                id: saved.id,
+                username: saved.username,
+                email: saved.email,
+                token
+            });
         })
         .catch(error => {
             console.log(error);
@@ -34,7 +42,13 @@ router.post("/login", (req, res) => {
             // if we find the user, then also check that passwords match
             if (user && bcrypt.compareSync(password, user.password)) {
                 req.session.loggedIn = true;
-                res.status(200).json({ message: "Welcome!" });
+                const token = generateToken([user]);
+                res.status(200).json({
+                    id: saved.id,
+                    username: saved.username,
+                    email: saved.email,
+                    token
+                });
             } else {
                 res.status(401).json({ message: "You cannot pass!" });
             }
@@ -45,6 +59,18 @@ router.post("/login", (req, res) => {
         });
 });
 
+function generateToken(user) {
+
+    const payload = user;
+
+    const secret = process.env.JWT_SECRET || "is it secret, is it safe?";
+
+    const options = {
+        expiresIn: "1d"
+    };
+
+    return jwt.sign(payload, secret, options);
+}
 // router.get("/logout", (req, res) => {
 
 //     if (req.session) {
