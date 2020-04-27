@@ -13,8 +13,8 @@
 |-|-|-|-|-|
 |POST  | /api/auth/register | add          | adds new user                          |
 |POST  | /api/auth/login    | findBy       | logs in new user and provides token    |
-|POST  | /api/user/login||
-| GET  | /api/users/        | find         | Gets the full list of all users. | Returns an array of `findById` objects.|
+
+| GET  | /api/users/    | find         | Gets the full list of all users. | returns a list of user objects.| requires authorization token to obtain users
 
 -- Register https://devdeskapi.herokuapp.com/api/auth/register
 -- Login https://devdeskapi.herokuapp.com/api/auth/login

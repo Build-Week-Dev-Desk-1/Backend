@@ -4,7 +4,7 @@ const Users = require("./users-model.js");
 const jwt = require("jsonwebtoken");
 const secrets = require("../api/secrets.js");
 const auth = require('../auth/authenticator.js');
-
+//https://devdeskapi.herokuapp.com/api/users
 router.get("/", (req, res) => {
     console.log("token", req.decodedToken);
 
@@ -28,20 +28,20 @@ router.get('/:id', auth, (req, res) => {
             })
         })
 });
-// router.post('/login', (req, res) => {
+router.post('/login', (req, res) => {
 
-//     const Users = req.body;
-//     Users.insert(users)
-//         .then(users => {
-//             res.status(201).json({ message: 'This user has been successfully created.' })
-//         })
-//         .catch(error => {
-//             console.log(error);
-//             res.status(500).json({
-//                 error: error
-//             })
-//         })
-// });
+    const Users = req.body;
+    Users.insert(users)
+        .then(users => {
+            res.status(201).json({ message: 'This user has been successfully created.' })
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                error: error
+            })
+        })
+});
 
 router.post("/login", (req, res) => {
     let { username, password } = req.body;
