@@ -62,7 +62,7 @@ router.delete('/:id', (req, res) => {
         })
         .catch(err => {
             console.log('error in delete', err)
-            res.status(500).json({ errorMessage: 'The post could not be removed.' })
+            res.status(500).json({ errorMessage: 'The log post could not be removed.' })
         })
 
 });

@@ -10,40 +10,40 @@ module.exports = {
 };
 
 function getLogByUserId(id) {
-    return db('log').where({ userid: id })
+    return db('logs').where({ userid: id })
 }
 
 function get() {
-    return db('log');
+    return db('logs');
 }
 
 function getById(id) {
-    return db('log')
+    return db('logs')
         .where({ id })
         .first();
 }
 
 function getBy(data) {
-    return db('logs')
+    return db('users')
         .where({ data })
 }
 
-function insert(study) {
-    return db('log')
-        .insert(study)
+function insert(logs) {
+    return db('logs')
+        .insert(logs)
         .then(ids => {
             return getById(ids[0]);
         });
 }
 
 function update(id, changes) {
-    return db('log')
+    return db('logs')
         .where({ id })
         .update(changes);
 }
 
 function remove(id) {
-    return db('log')
+    return db('logs')
         .where('id', id)
         .del();
 }
