@@ -8,8 +8,8 @@ const secrets = require("../api/secrets.js");
 
 
 router.get('/', (req, res, next) => {
-    res.json({
-        message: `This is your auth-router!`
+    res.status(200).json({
+        message: `Dev Desk logger working!`
     })
 })
 router.post("/register", (req, res) => {
