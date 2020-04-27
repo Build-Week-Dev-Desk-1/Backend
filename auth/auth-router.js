@@ -31,6 +31,7 @@ router.post("/register", (req, res) => {
                 id: saved.id,
                 username: saved.username,
                 email: saved.email,
+                type: saved.type,
                 token
             });
         })
@@ -62,6 +63,9 @@ router.post("/login", (req, res) => {
             res.status(500).json({ errorMessage: error.message });
         });
 });
+
+
+
 
 function generateToken(user) {
     // the data

@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 });
 router.get('/user/:id', (req, res) => {
     const id = req.params.id;
-    Logs.getStudyByUserId(id)
+    Logs.getLogByUserId(id)
         .then(logs => {
             res.status(200).json(logs)
         })
