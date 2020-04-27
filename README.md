@@ -14,4 +14,5 @@
 | GET  | /api/users/        | getAll       | Gets the full list of all users. | Returns an array of `findById` objects.|
 | GET  | /api/users/count   | getCount     | Gets the number of users in the DB.   | Returns an object `{"count": 5}`|
 
---
+-- resources Postgres
+-- DB_ENV production
