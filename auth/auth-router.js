@@ -9,7 +9,7 @@ const secrets = require("../api/secrets.js");
 
 router.get('/', (req, res, next) => {
     res.status(200).json({
-        message: `Dev Desk logger working!`
+        message: `Dev Desk Auth route working!`
     })
 })
 router.post("/register", (req, res) => {
