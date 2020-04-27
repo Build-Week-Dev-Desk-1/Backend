@@ -1,5 +1,5 @@
 const express = require('express');
-const Logs = require('./logs-router.js');
+const Logs = require('./logs-model.js');
 const router = express.Router();
 router.get('/', (req, res) => {
     Logs.get()

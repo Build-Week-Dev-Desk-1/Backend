@@ -1,10 +1,11 @@
-const db = require("../database/dbConfig.js");
+const db = require("../data/dbConfig.js");
 
 module.exports = {
     add,
     find,
     findBy,
     findById,
+    // insert,
     update,
     remove
 };
@@ -32,6 +33,14 @@ function update(changes, id) {
         .where({ id: id })
         .update(changes);
 }
+
+// function insert(user) {
+//     return db('users')
+//         .insert(user)
+//         .then(ids => {
+//             return getById(ids[0]);
+//         });
+// }
 
 function remove(id) {
     return db('users')
