@@ -9,8 +9,7 @@ exports.up = function(knex) {
 
         // define a Foreign Key
         // foreign key to user table // integer without negative values, db uses sign bit for larger #s
-        // regards deleting recrod from the primary key table // onDelete() can take 'RESTRICT', 'NO ACTION', 'SET NULL', 'CASCADE'
-
+        // regards deleting record from the primary key table // onDelete() can take 'RESTRICT', 'NO ACTION', 'SET NULL', 'CASCADE'
         // regards chaging the value of the primary key table
     })
 };
