@@ -12,6 +12,8 @@ router.get('/', (req, res, next) => {
         message: `Dev Desk Auth route working!`
     })
 })
+
+//https: //devdeskapi.herokuapp.com/api/auth/register
 router.post("/register", (req, res) => {
     let user = req.body; // username, password
 
@@ -40,7 +42,7 @@ router.post("/register", (req, res) => {
             res.status(500).json({ errorMessage: error.message });
         });
 });
-
+//https://devdeskapi.herokuapp.com/api/auth/login
 router.post("/login", (req, res) => {
     let { username, password } = req.body;
 

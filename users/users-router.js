@@ -28,20 +28,20 @@ router.get('/:id', auth, (req, res) => {
             })
         })
 });
-router.post('/login', (req, res) => {
+// router.post('/login', (req, res) => {
 
-    const Users = req.body;
-    Users.insert(users)
-        .then(users => {
-            res.status(201).json({ message: 'This user has been successfully created.' })
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({
-                error: error
-            })
-        })
-});
+//     const Users = req.body;
+//     Users.insert(users)
+//         .then(users => {
+//             res.status(201).json({ message: 'This user has been successfully created.' })
+//         })
+//         .catch(error => {
+//             console.log(error);
+//             res.status(500).json({
+//                 error: error
+//             })
+//         })
+// });
 
 router.post("/login", (req, res) => {
     let { username, password } = req.body;
