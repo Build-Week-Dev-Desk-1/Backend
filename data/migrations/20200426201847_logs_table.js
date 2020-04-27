@@ -8,13 +8,10 @@ exports.up = function(knex) {
         logs.boolean("completed").defaultTo(false);
 
         // define a Foreign Key
-        logs.integer('userid') // foreign key to user table
-            .unsigned() // integer without negative values, db uses sign bit for larger #s
-            .references('id')
-            .inTable('users')
-            .onDelete('CASCADE') // regards deleting recrod from the primary key table
-            // onDelete() can take 'RESTRICT', 'NO ACTION', 'SET NULL', 'CASCADE'
-            .onUpdate('CASCADE'); // regards chaging the value of the primary key table
+        // foreign key to user table // integer without negative values, db uses sign bit for larger #s
+        // regards deleting recrod from the primary key table // onDelete() can take 'RESTRICT', 'NO ACTION', 'SET NULL', 'CASCADE'
+        logs.integer('userid').unsigned().references('id').inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
+        // regards chaging the value of the primary key table
     })
 };
 
