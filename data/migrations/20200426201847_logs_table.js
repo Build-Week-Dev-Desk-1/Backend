@@ -8,7 +8,7 @@ exports.up = function(knex) {
         logs.boolean("completed").defaultTo(false);
 
         // define a Foreign Key
-        logs.integer('user_id') // foreign key to user table
+        logs.integer('userid') // foreign key to user table
             .unsigned() // integer without negative values, db uses sign bit for larger #s
             .references('id')
             .inTable('users')
