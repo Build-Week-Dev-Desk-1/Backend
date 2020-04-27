@@ -3,13 +3,19 @@
 module.exports = {
     development: {
         client: 'sqlite3',
-        connection: { filename: './data/devdesk.db3' },
+        connection: {
+            filename: './data/devdesk.db3',
+        },
         useNullAsDefault: true,
         migrations: {
-            directory: './data/migrations',
+            directory: "./data/migrations",
         },
-        seeds: { directory: './data/seeds', },
+        seeds: {
+            directory: "./data/seeds",
+        },
     },
+
+    // db connection for testing
     testing: {
         client: "sqlite3",
         connection: {
@@ -24,10 +30,10 @@ module.exports = {
         },
     },
 
-    //Heroku will look for production configuration
+    // Heroku will look for a 'production' configuration
     production: {
-        client: 'pg',
-        connection: process.env.DATABASE_URL,
+        client: "pg", // npm i pg
+        connection: process.env.DATABASE_URL, // provided by Heroku
         migrations: {
             directory: "./data/migrations",
         },
