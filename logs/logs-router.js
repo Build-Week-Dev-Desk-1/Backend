@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
             })
         })
 });
-router.get('/user/:id', (req, res) => {
+router.get('/logs/:id', (req, res) => {
     const id = req.params.id;
     Logs.getLogByUserId(id)
         .then(logs => {

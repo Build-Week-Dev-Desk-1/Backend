@@ -4,7 +4,7 @@ const Users = require("./users-model.js");
 const jwt = require("jsonwebtoken");
 const secrets = require("../api/secrets.js");
 const auth = require('../auth/authenticator.js');
-//https://devdeskapi.herokuapp.com/api/users
+//https://devdeskapi.herokuapp.com/api/users/
 router.get("/", (req, res) => {
     console.log("token", req.decodedToken);
 
