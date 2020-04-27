@@ -17,7 +17,7 @@ server.use('/api/auth', authRouter);
 server.use('/api/users', authenticate, usersRouter);
 server.use('/api/logs', logsRouter);
 server.get("/", (req, res) => {
-    res.json({ api: "This API up and running" });
+    res.json({ api: "This DevDesk API is up and running" });
 });
 
 module.exports = server;
