@@ -44,7 +44,7 @@ router.get("/topten", (req, res) => {
 });
 
 
-// @route DELETE api/users/:id
+// @route DELETE api/users/:id/1
 // @desc Update User
 // @access Private
 router.put('/:id', (req, res) => {
