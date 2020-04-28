@@ -15,8 +15,8 @@
 |-|-|-|-|
 | POST | /api/auth/register | Registers new user. | Expects `{"username":", "password":", "email":"}`|
 | POST | /api/auth/login    | Logs in a user.   |  Expects `{"username":"", "password":""}`|
-| GET | api/users            | Gets all users     |  Expects `{"id", "username":"", "email", "password", "admin"}`|
-| GET | api/users/:id/      | Gets user by ID    | Expects `{"id", "username":"", "email", "password", "admin"}`|
+| GET | api/users            | Gets all users     |  Output `{"id", "username":"", "email", "password", "admin"}`|
+| GET | api/users/:id/      | Gets user by ID    | Ouput `{"id", "username":"", "email", "password", "admin"}`|
 | PUT | api/users/:id/1    | Updates a user by id.   |  Expects `{"id", "username":"", "email", "password", "admin"}`|
 | DELETE | api/users/:id/1 | Deletes a user by id.   |  Expects `no user information on body`|
 
