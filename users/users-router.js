@@ -40,7 +40,7 @@ router.get('/:id', Restricted, (req, res) => {
 // @route PUT api/users/:id/1
 // @desc Update User
 // @access Private
-router.put('/:id', (req, res) => {
+router.put('/:id', Restricted, (req, res) => {
     Users.update(req.body, req.params.id)
         .then(user => {
             if (user) {
@@ -54,5 +54,21 @@ router.put('/:id', (req, res) => {
         })
 })
 
+// @route Delete api/users/:id/1
+// @desc deletes User
+// @access Private
+router.delete('/:id', Restricted, (req, res) => {
+    Users.remove(req.params.id)
+        .then(user => {
+            if (user) {
+                res.json({ message: "User removed" })
+            } else {
+                res.status(404).json({ message: "User with specified ID does not exist" })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: "User could not be removed", err })
+        })
+})
 
 module.exports = router;
