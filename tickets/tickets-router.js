@@ -6,17 +6,6 @@ const router = express.Router();
 // @route GET api/tickets/
 // @desc get tickets 
 // @access Private
-// router.get('/', (req, res) => {
-//     Tickets.findby()
-//         .then(ticket => {
-//             res.status(200).json(ticket)
-//         })
-//     console.log(error);
-//     res.status(500).json({
-//         message: "could not access tickets",
-//         error: error
-//     })
-// });
 router.get('/', (req, res) => {
     Tickets.findBy()
         .then(tickets => {
