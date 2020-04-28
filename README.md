@@ -42,7 +42,7 @@
 | DELETE | /api/tickets/:id/1 | Deletes a ticket by id.   |  Expects `{no user information on body}`|
 
 
--- get tickets list http://localhost:4000/api/tickets
+-- get tickets list https://devdeskapi.herokuapp.com/api/tickets
 
 
 
