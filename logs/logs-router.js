@@ -18,13 +18,13 @@ router.get('/', (req, res) => {
 });
 
 // middleware autheniticate
-router.get("/r", authenticate, (req, res) => {
-    Logs.getAll()
-        .then(logs => {
-            res.json(logs);
-        })
-        .catch(err => res.status(500).json({ msg: err }))
-});
+// router.get("/r", authenticate, (req, res) => {
+//     Logs.getAll()
+//         .then(logs => {
+//             res.json(logs);
+//         })
+//         .catch(err => res.status(500).json({ msg: err }))
+// });
 
 // /api/logs/count
 // localhost:4000/api/logs/count

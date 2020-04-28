@@ -7,7 +7,6 @@ module.exports = {
     findById,
     getAllLogsForUser,
     getTopTen,
-
     //getById,
     // insert,
     update,

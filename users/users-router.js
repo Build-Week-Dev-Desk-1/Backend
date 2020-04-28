@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const bcrypt = require("bcryptjs");
+// const bcrypt = require("bcryptjs");
 const Users = require("./users-model.js");
-const jwt = require("jsonwebtoken");
-const secrets = require("../api/secrets.js");
+// const jwt = require("jsonwebtoken");
+// const secrets = require("../api/secrets.js");
 const auth = require('../auth/authenticator.js');
 
 //https://devdeskapi.herokuapp.com/api/users/
@@ -17,27 +17,22 @@ router.post("/", (req, res) => {
         .catch(err => res.send(err));
 });
 
-// /api/users/logs/:id
-//Gets all logs for a user.
+// @route GET api/users
+// @desc Get all users informatin
+// @ access Private
 
-router.get('/logs/:id', auth, (req, res) => {
-    const id = req.params.id;
-    Users.getAllLogsForUser(id)
-        .then(logs => {
-            res.status(200).json({ msg: "unable to pass", logs })
+router.get("/", (req, res) => {
+    console.log("token", req.decodedToken);
+
+    Users.find()
+        .then(users => {
+            res.json(users);
         })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({
-                msg: "Unable to obtain userid",
-                userid: id
-            })
-        })
+        .catch(err => res.send(err));
 });
-//
-router.get('*', (req, res) => {
-    res.status(404).json("Not Found.");
-});
+
+
+
 
 // /api/users/topten
 router.get("/topten", (req, res) => {
