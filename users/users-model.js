@@ -7,6 +7,7 @@ module.exports = {
     findById,
     getAllLogsForUser,
     getTopTen,
+
     //getById,
     // insert,
     update,
@@ -15,7 +16,7 @@ module.exports = {
 };
 
 function find() {
-    return db('users').select('id', 'username', 'email', 'type');
+    return db('users').select('id', 'username', 'email', 'admin');
 }
 
 
@@ -34,15 +35,15 @@ async function add(user) {
     // sends info, gets id back
     // id is destructured from an array?
     if (user.username && user.password && user.email) {
-        const [id] = await db('users').insert(user);
-        return getById(id);
+        const [id] = await db('users').insert(user, "id");
+        return findById(id);
     } else {
         return ({ err: "Incomplete registration info. Check that all fields are sent." })
     }
 }
 
 function findById(id) {
-    return db('users').select('id', 'username', 'email', 'type').where({ userid: id }).first();
+    return db('users').select('id', 'username', 'email', 'admin').where({ userid: id }).first();
     //return db('users').where({ id: id }).first();
 }
 
