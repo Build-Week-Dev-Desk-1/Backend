@@ -50,8 +50,8 @@ async function add(user) {
 // }
 
 function findById(id) {
-    return db('users').select('id', 'username', 'email', 'admin').where({ userid: id }).first();
-    //return db('users').where({ id: id }).first();
+    //return db('users').select('id', 'username', 'email', 'admin').where({ userid: id }).first();
+    return db('users').where({ id: id }).first();
 }
 
 
