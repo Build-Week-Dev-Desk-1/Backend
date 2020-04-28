@@ -19,7 +19,7 @@ router.get('/', Restricted, (req, res) => {
             res.json(err)
         })
 });
-// @route GET api/users/:id
+// @route GET api/users/:id/4
 // @desc Get all users informatin
 // @ access Private
 //https://devdeskapi.herokuapp.com/api/users/id

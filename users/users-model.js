@@ -73,8 +73,10 @@ function getTopTen() {
         .orderBy('title', 'desc').limit(5);
 }
 
-function update(changes, id) {
-    return db('users').where({ id: id }).update(changes);
+function update(user, id) {
+    return db('users')
+        .where({ id })
+        .update(user);
 }
 
 async function setUserLogs(data) {
