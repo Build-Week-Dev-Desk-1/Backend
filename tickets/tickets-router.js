@@ -22,11 +22,11 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const tickets = req.body;
     Tickets.add(tickets)
-        .then(tickets => {
-            res.status(201).json(tickets)
+        .then(item => {
+            res.status(201).json(item)
         })
         .catch(err => {
-            res.status(500).json({ message: "Could not add ticket" })
+            res.status(500).json({ message: "Could not add ticket", err })
         })
 });
 
