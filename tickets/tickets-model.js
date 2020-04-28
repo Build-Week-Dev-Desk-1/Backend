@@ -43,7 +43,7 @@ function getBy(data) {
 // }
 
 async function update(tickets) {
-    if (tickets.id && tickets.title && tickets.description && (tickets.completed !== null)) {
+    if (tickets.userid && tickets.id && tickets.title && tickets.description && (tickets.completed !== null)) {
         const id = tickets.id;
         if (await db("tickets").where({ id }).update(tickets)) {
             return { status: 202, success: 1, msg: `id ${id} Update successful.` }
