@@ -1,14 +1,14 @@
 const express = require('express');
-const Logs = require('./tickets-model.js');
+const Tickets = require('./tickets-model.js');
 const router = express.Router();
 const authenticate = require('../auth/authenticate-middleware.js');
 
 // /api/logs/
 // localhost: 4000 / api / logs
 router.get('/', (req, res) => {
-    Logs.get()
-        .then(item => {
-            res.status(200).json(logs)
+    Tickets.get()
+        .then(tickets => {
+            res.status(200).json(tickets)
         })
     console.log(error);
     res.status(500).json({
@@ -18,10 +18,10 @@ router.get('/', (req, res) => {
 
 //  /api/logs/
 router.post('/', (req, res) => {
-    const logs = req.body;
-    Logs.add(logs)
-        .then(logs => {
-            res.status(201).json(logs)
+    const tickets = req.body;
+    Tickets.add(tickets)
+        .then(tickets => {
+            res.status(201).json(tickets)
         })
         .catch(error => {
             console.log(error);
@@ -33,10 +33,10 @@ router.post('/', (req, res) => {
 
 // /api/logs/:id
 router.get('/:id', (req, res) => {
-    Logs.findById(req.params.id)
-        .then(item => {
-            if (item) {
-                res.json(item)
+    Tickets.findById(req.params.id)
+        .then(tickets => {
+            if (tickets) {
+                res.json(tickets)
             } else {
                 res.status(404).json({ message: "The log with the specified ID does not exist" })
             }
@@ -49,12 +49,12 @@ router.get('/:id', (req, res) => {
 // edit an existing ticket log
 // /api/logs/:id
 router.put('/:id', (req, res) => {
-    const logs = req.body;
+    const tickets = req.body;
     const id = req.params.id;
-    Logs.update(id, logs)
-        .then(logs => {
-            if (logs) {
-                res.status(200).json(logs)
+    Tickets.update(id, tickets)
+        .then(tickets => {
+            if (tickets) {
+                res.status(200).json(tickets)
             } else {
                 res.status(404).json({ message: "Ticket with specified ID does not exist" })
             }
@@ -71,9 +71,9 @@ router.put('/:id', (req, res) => {
 // @access Private
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
-    Logs.remove(id)
-        .then(logs => {
-            if (logs) {
+    Tickets.remove(id)
+        .then(tickets => {
+            if (tickets) {
                 res.json({ message: "Ticket removed" })
             } else {
                 res.status(404).json({ message: "Ticket with specified ID does not exist" })
