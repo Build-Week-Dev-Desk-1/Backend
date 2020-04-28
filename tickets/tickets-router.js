@@ -3,8 +3,9 @@ const Tickets = require('./tickets-model.js');
 const router = express.Router();
 const authenticate = require('../auth/authenticate-middleware.js');
 
-// /api/logs/
-// localhost: 4000 / api / logs
+// @route GET api/tickets/
+// @desc get tickets 
+// @access Private
 router.get('/', (req, res) => {
     Tickets.get()
         .then(tickets => {
@@ -16,7 +17,9 @@ router.get('/', (req, res) => {
     })
 });
 
-//  /api/logs/
+// @route PUT api/tickets/
+// @desc POST new ticket 
+// @access Private
 router.post('/', (req, res) => {
     const tickets = req.body;
     Tickets.add(tickets)
@@ -31,7 +34,9 @@ router.post('/', (req, res) => {
         })
 });
 
-// /api/logs/:id
+// @route GET api/tickets/:id/1
+// @desc get tickets by id 
+// @access Private
 router.get('/:id', (req, res) => {
     Tickets.findById(req.params.id)
         .then(tickets => {
@@ -46,8 +51,9 @@ router.get('/:id', (req, res) => {
         })
 })
 
-// edit an existing ticket log
-// /api/logs/:id
+// @route PUT api/tickets/:id/1
+// @desc Update ticket 
+// @access Private
 router.put('/:id', (req, res) => {
     const tickets = req.body;
     const id = req.params.id;
@@ -65,9 +71,8 @@ router.put('/:id', (req, res) => {
         })
 });
 
-
-// @route DELETE api/logs/:id/1
-// @desc Update User
+// @route DELETE api/tickets/:id/1
+// @desc delete ticket by :id
 // @access Private
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
