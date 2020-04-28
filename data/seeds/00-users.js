@@ -4,19 +4,19 @@ exports.seed = function(knex) {
         .then(function() {
             // Inserts seed entries
             return knex('users').insert([{
-                    userid: '1',
+                    // userid: '1',
                     username: 'EliasAdmin',
                     password: 'ammotek',
                     email: 'eliastest@gmail.com',
-                    type: 'admin',
+                    admin: 'true',
 
                 },
                 {
-                    userid: '2',
+                    // userid: '2',
                     username: 'RobbieUser',
                     password: 'password',
                     email: 'robbie@gmail.com',
-                    type: 'user',
+                    admin: 'false',
                 }
             ]);
         });

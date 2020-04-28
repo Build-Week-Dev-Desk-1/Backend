@@ -5,44 +5,35 @@ const jwt = require("jsonwebtoken"); // ----> npm i jsonwebtoken
 const Users = require("../users/users-model.js");
 const secrets = require("../api/secrets.js");
 
-
-
-router.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: `Dev Desk Auth route working!`
-    })
-})
-
 //https: //devdeskapi.herokuapp.com/api/auth/register
 router.post("/register", (req, res) => {
-    let user = req.body; // username, password
+        let user = req.body; // username, password
 
-    // rounds are 2 to the N times
-    const rounds = process.env.HASH_ROUNDS || 14;
+        // rounds are 2 to the N times
+        const rounds = process.env.HASH_ROUNDS || 14;
 
-    // hash the user.password
-    const hash = bcrypt.hashSync(user.password, rounds);
+        // hash the user.password
+        const hash = bcrypt.hashSync(user.password, rounds);
 
-    // update the user to use the hash
-    user.password = hash;
+        // update the user to use the hash
+        user.password = hash;
 
-    Users.add(user)
-        .then(saved => {
-            const token = generateToken(saved)
-            res.status(201).json({
-                id: saved.id,
-                username: saved.username,
-                email: saved.email,
-                type: saved.type,
-                token
-            });
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({ errorMessage: error.message });
-        });
-});
-//https://devdeskapi.herokuapp.com/api/auth/login
+        Users.add(user)
+            .then(saved => {
+                //const token = generateToken(saved)
+                res.status(201).json({
+                    message: `Thanks for registering, ${saved.username}!`,
+                    username: saved.username,
+                    email: saved.email,
+                    password: saved.password
+
+                });
+            })
+            .catch(err => {
+                res.status(500).json({ msg: err })
+            })
+    })
+    //https://devdeskapi.herokuapp.com/api/auth/login
 router.post("/login", (req, res) => {
     let { username, password } = req.body;
 
@@ -56,8 +47,7 @@ router.post("/login", (req, res) => {
 
                 // send the token to the client
                 res.status(200).json({
-                    message: "Welcome to the Users section!",
-                    username,
+                    message: `Welcome to the users section, ${user.username}!, here is your token`,
                     token
                 });
             } else {
@@ -69,9 +59,6 @@ router.post("/login", (req, res) => {
             res.status(500).json({ errorMessage: error.message });
         });
 });
-
-
-
 
 function generateToken(user) {
     // the data

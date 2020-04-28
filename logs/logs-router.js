@@ -1,6 +1,8 @@
 const express = require('express');
 const Logs = require('./logs-model.js');
 const router = express.Router();
+const authenticate = require('../auth/authenticate-middleware.js');
+// /api/logs/
 router.get('/', (req, res) => {
     Logs.get()
         .then(logs => {
@@ -13,6 +15,26 @@ router.get('/', (req, res) => {
             })
         })
 });
+
+// middleware autheniticate
+router.get("/r", authenticate, (req, res) => {
+    Logs.getAll()
+        .then(logs => {
+            res.json(logs);
+        })
+        .catch(err => res.status(500).json({ msg: err }))
+});
+
+// /api/logs/count
+router.get("/count", (req, res) => {
+    Logs.count()
+        .then(logs => {
+            res.json(logs);
+        })
+        .catch(err => res.status(500).json({ msg: err }))
+});
+
+// /api/logs/:id
 router.get('/logs/:id', (req, res) => {
     const id = req.params.id;
     Logs.getLogByUserId(id)
@@ -26,6 +48,8 @@ router.get('/logs/:id', (req, res) => {
             })
         })
 });
+
+//  /api/logs/
 router.post('/', (req, res) => {
     const logs = req.body;
     Logs.insert(logs)
@@ -39,7 +63,10 @@ router.post('/', (req, res) => {
             })
         })
 });
-router.put('/:id', (req, res) => {
+
+// edit an existing ticket log
+// /api/logs/
+router.put('/', (req, res) => {
     const logs = req.body;
     const id = req.params.id;
     Logs.update(id, logs)
@@ -53,8 +80,8 @@ router.put('/:id', (req, res) => {
             })
         })
 });
-
-router.delete('/:id', (req, res) => {
+// /api/logs/del/:id
+router.delete('/del/:id', (req, res) => {
     const id = req.params.id;
     Logs.remove(id)
         .then(deleted => {

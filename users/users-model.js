@@ -5,10 +5,13 @@ module.exports = {
     find,
     findBy,
     findById,
+    getAllLogsForUser,
+    getTopTen,
     //getById,
     // insert,
     update,
-    remove
+    remove,
+    setUserLogs
 };
 
 function find() {
@@ -32,21 +35,37 @@ function findById(id) {
     //return db('users').where({ id: id }).first();
 }
 
-// function getById(id) {
-//     return db('users').where({ id: id }).first();
-// }
+
+function getAllLogsForUser(userid) {
+    return db("logs").where({ userid })
+}
+
+function getTopTen() {
+    /* 
+    SELECT userid, title, users.username FROM logs
+    JOIN users on logs.userid = users.id
+    ORDER BY logs DESC LIMIT 5;
+     */
+    // return db("scores").orderBy('score', 'desc').limit(3);
+
+    return db("logs")
+        .select("title", "description", "users.username")
+        .join("users", "logs.userid", "users.id")
+        .orderBy('title', 'desc').limit(5);
+}
 
 function update(changes, id) {
     return db('users').where({ id: id }).update(changes);
 }
 
-// function insert(user) {
-//     return db('users')
-//         .insert(user)
-//         .then(ids => {
-//             return getById(ids[0]);
-//         });
-// }
+async function setUserLogs(data) {
+    if (data.userid && data.title && data.description) {
+        const [logs] = await db('logs').insert(data);
+        return ({ status: 201, msg: logs });
+    } else {
+        return ({ status: 418, msg: "Incomplete query data. Check that all fields are sent." })
+    }
+}
 
 function remove(id) {
     return db('users')
