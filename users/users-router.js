@@ -5,7 +5,7 @@ const Users = require("./users-model.js");
 // const secrets = require("../api/secrets.js");
 const Restricted = require('../auth/authenticate-middleware.js');
 
-// @route GET api/users
+// @route GET api/users/
 // @desc Get all users informatin
 // @ access Private
 //https://devdeskapi.herokuapp.com/api/users

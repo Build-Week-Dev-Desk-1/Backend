@@ -8,8 +8,8 @@ const router = express.Router();
 // @access Private
 router.get('/', (req, res) => {
     Tickets.findby()
-        .then(tickets => {
-            res.status(200).json(tickets)
+        .then(ticket => {
+            res.status(200).json(ticket)
         })
     console.log(error);
     res.status(500).json({
