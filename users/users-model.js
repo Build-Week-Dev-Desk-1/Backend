@@ -24,6 +24,8 @@ function findBy(filter) {
     return db("users").select('*').where(filter);
 }
 
+
+
 // async function add(user) {
 //     const [id] = await db("users").insert(user, "id");
 
@@ -40,6 +42,12 @@ async function add(user) {
         return ({ err: "Incomplete registration info. Check that all fields are sent." })
     }
 }
+
+// function findById(id) {
+//     return db('users')
+//         .where({ id })
+//         .first();
+// }
 
 function findById(id) {
     return db('users').select('id', 'username', 'email', 'admin').where({ userid: id }).first();

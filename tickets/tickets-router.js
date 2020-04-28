@@ -85,7 +85,7 @@ router.delete('/:id', (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).json({ message: "Ticket could not be removed" })
+            res.status(500).json({ message: "Ticket could not be removed", err })
         })
 })
 
