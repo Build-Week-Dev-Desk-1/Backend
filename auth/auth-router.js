@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken"); // ----> npm i jsonwebtoken
 const Users = require("../users/users-model.js");
 const secrets = require("../api/secrets.js");
 
-//https: //devdeskapi.herokuapp.com/api/auth/register
+//https://devdeskapi.herokuapp.com/api/auth/register
 router.post("/register", (req, res) => {
         let user = req.body; // username, password
 
@@ -62,6 +62,22 @@ router.post("/login", (req, res) => {
             console.log(error);
             res.status(500).json({ errorMessage: error.message });
         });
+});
+
+router.get("/logout", (req, res) => {
+    if (req.session) {
+        req.session.destroy(error => {
+            if (error) {
+                res.status(500).json({
+                    errorMessage: "Unable to log out!!",
+                });
+            } else {
+                res.status(204).end();
+            }
+        });
+    } else {
+        res.status(204).end();
+    }
 });
 
 function generateToken(user) {

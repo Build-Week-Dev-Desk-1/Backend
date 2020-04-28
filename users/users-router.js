@@ -3,12 +3,12 @@ const router = require("express").Router();
 const Users = require("./users-model.js");
 // const jwt = require("jsonwebtoken");
 // const secrets = require("../api/secrets.js");
-const auth = require('../auth/authenticator.js');
+//const auth = require('../auth/authenticator.js');
 
-//https://devdeskapi.herokuapp.com/api/users/
+
 // /api/users/logs
 router.post("/", (req, res) => {
-    //console.log("token", req.decodedToken);
+    console.log("token", req.decodedToken);
     let logs = req.body
     Users.setUserLogs(logs)
         .then(users => {
@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
 // @route GET api/users
 // @desc Get all users informatin
 // @ access Private
-
+//https://devdeskapi.herokuapp.com/api/users
 router.get("/", (req, res) => {
     console.log("token", req.decodedToken);
 
@@ -43,74 +43,23 @@ router.get("/topten", (req, res) => {
         .catch(err => res.json({ err: err }))
 });
 
-// router.post("/login", (req, res) => {
-//     let { username, password } = req.body;
 
-//     // search for the user using the username
-//     Users.findBy({ username })
-//         .then(([user]) => {
-//             // if we find the user, then also check that passwords match
-//             if (user && bcrypt.compareSync(password, user.password)) {
-//                 // produce a token
-//                 const token = generateToken(user);
+// @route DELETE api/users/:id
+// @desc Update User
+// @access Private
+router.put('/:id', (req, res) => {
+    Users.remove(req.params.id)
+        .then(user => {
+            if (user) {
+                res.json({ message: "User removed" })
+            } else {
+                res.status(404).json({ message: "User with specified ID does not exist" })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: "User could not be removed" })
+        })
+})
 
-//                 // send the token to the client
-//                 res.status(200).json({
-//                     message: "Welcome to the Users section!",
-//                     username,
-//                     token
-//                 });
-//             } else {
-//                 res.status(401).json({ message: "You cannot pass!" });
-//             }
-//         })
-//         .catch(error => {
-//             console.log(error);
-//             res.status(500).json({ errorMessage: error.message });
-//         });
-// });
-
-
-// router.put('/:id', (req, res) => {
-//     const Users = req.body;
-//     const id = req.params.id;
-//     Users.update(id, logs)
-//         .then(users => {
-//             res.status(200).json(logs)
-//         })
-//         .catch(error => {
-//             console.log(error);
-//             res.status(500).json({
-//                 error: error
-//             })
-//         })
-// });
-
-// router.delete('/:id', (req, res) => {
-//     const id = req.params.id;
-//     Users.remove(id)
-//         .then(deleted => {
-//             res.status(200).json({ message: 'This user has been successfully deleted.' })
-//         })
-//         .catch(err => {
-//             console.log('error in delete', err)
-//             res.status(500).json({ errorMessage: 'The user could not be removed.' })
-//         })
-
-// });
-
-// function generateToken(user) {
-//     // the data
-//     const payload = {
-//         userId: user.id,
-//         username: user.username,
-//     };
-//     const secret = secrets.jwtSecret;
-//     const options = {
-//         expiresIn: "1d",
-//     };
-
-//     return jwt.sign(payload, secret, options);
-// }
 
 module.exports = router;
