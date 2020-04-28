@@ -20,14 +20,13 @@
 | PUT | api/users/:id/1    | Updates a user by id.   |  Expects `{"id", "username":"", "email", "password", "admin"}`|
 | DELETE | api/users/:id/1 | Deletes a user by id.   |  Expects `no user information on body`|
 
-
 -- Register https://devdeskapi.herokuapp.com/api/auth/register
 
 -- Login https://devdeskapi.herokuapp.com/api/auth/login
 
 -- get users https://devdeskapi.herokuapp.com/api/users
 
--- get user by id https://devdeskapi.herokuapp.com/api/users/id
+-- get user by id https://devdeskapi.herokuapp.com/api/users/:id/2
 
 -- Update & Delete user by id  https://devdeskapi.herokuapp.com/api/users/:id/4
 
