@@ -48,7 +48,7 @@ router.get('/:id', (req, res) => {
 })
 
 // @route PUT api/tickets/:id/1
-// @desc Update ticket 
+// @desc Update ticket by id 
 // @access Private
 router.put('/:id', (req, res) => {
     const tickets = req.body;
