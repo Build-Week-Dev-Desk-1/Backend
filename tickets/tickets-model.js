@@ -37,16 +37,16 @@ function getBy(data) {
         .where({ data })
 }
 
-function add(item) {
-    return db('tickets')
-        .insert(item)
-}
+// function add(item) {
+//     return db('tickets')
+//         .insert(item)
+// }
 
 async function update(tickets) {
     if (tickets.id && tickets.title && tickets.description && (tickets.completed !== null)) {
         const id = tickets.id;
         if (await db("tickets").where({ id }).update(tickets)) {
-            return { status: 202, success: 1, msg: `id${id} Update successful.` }
+            return { status: 202, success: 1, msg: `id ${id} Update successful.` }
         } else {
             return { status: 500, success: 0, msg: "DB UPDATE Problem." }
         }

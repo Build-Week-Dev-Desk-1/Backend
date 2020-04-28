@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 // @access Private
 router.post('/', (req, res) => {
     const tickets = req.body;
-    Tickets.add(tickets)
+    Tickets.update(tickets)
         .then(item => {
             res.status(201).json(item)
         })
