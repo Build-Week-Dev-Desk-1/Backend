@@ -1,18 +1,19 @@
 const express = require('express');
 const Tickets = require('./tickets-model.js');
 const router = express.Router();
-const authenticate = require('../auth/authenticate-middleware.js');
+const Restricted = require('../auth/authenticate-middleware.js');
 
 // @route GET api/tickets/
 // @desc get tickets 
 // @access Private
-router.get('/', (req, res) => {
-    Tickets.get()
+router.get('/', Restricted, (req, res) => {
+    Tickets.findby()
         .then(tickets => {
             res.status(200).json(tickets)
         })
     console.log(error);
     res.status(500).json({
+        message: "could not access tickets",
         error: error
     })
 });
@@ -26,11 +27,8 @@ router.post('/', (req, res) => {
         .then(tickets => {
             res.status(201).json(tickets)
         })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({
-                error: error
-            })
+        .catch(err => {
+            res.status(500).json({ message: "Could not add ticket" })
         })
 });
 

@@ -1,10 +1,8 @@
 const db = require('../data/dbConfig.js');
 module.exports = {
     count,
+    findBy,
     findById,
-    // getLogByUserId,
-    get,
-    //getById,
     getBy,
     add,
     update,
@@ -26,18 +24,22 @@ function findById(id) {
         .first();
 }
 
-function get() {
+function findBy(id) {
     return db('tickets');
 }
+
+// function get(tickets) {
+//     return db('tickets');
+// }
 
 function getBy(data) {
     return db('tickets')
         .where({ data })
 }
 
-function add(item) {
+function add(tickets) {
     return db('tickets')
-        .insert(item)
+        .insert(tickets)
 }
 
 async function update(tickets) {
