@@ -1,12 +1,12 @@
 const express = require('express');
 const Tickets = require('./tickets-model.js');
 const router = express.Router();
-const Restricted = require('../auth/authenticate-middleware.js');
+//const Restricted = require('../auth/authenticate-middleware.js');
 
 // @route GET api/tickets/
 // @desc get tickets 
 // @access Private
-router.get('/', Restricted, (req, res) => {
+router.get('/', (req, res) => {
     Tickets.findby()
         .then(tickets => {
             res.status(200).json(tickets)

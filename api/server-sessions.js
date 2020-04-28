@@ -6,7 +6,8 @@ const KnexSessionStore = require("connect-session-knex")(session); // remember t
 
 const usersRouter = require("../users/users-router.js");
 const authRouter = require("../auth/auth-router.js");
-const logsRouter = require('../tickets/logs-router.js');
+const ticketsRouter = require('../tickets/logs-router.js');
+
 const authenticator = require("../auth/authenticator.js");
 const dbConnection = require("../data/dbConfig.js");
 
@@ -40,7 +41,7 @@ server.use(session(sessionConfig));
 
 server.use("/api/users", authenticator, usersRouter);
 server.use("/api/auth", authRouter);
-server.use('/api/tickets', logsRouter);
+server.use('/api/tickets', ticketsRouter);
 
 server.get("/", (req, res) => {
     res.json({ api: "up" });
