@@ -35,12 +35,15 @@
 
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
-| GET | /api/tickets | Get all tickets.   |  Output `{"id", "userid", "title", "description", "completed" }`|
+| GET | /api/tickets/ | Get all tickets.   |  Output `{"id", "userid", "title", "description", "completed" }`|
 | POST | /api/tickets/      | Creates ticket    |Expects `{"id", "userid", "title", "description", "completed" }`|
 | GET | /api/tickets/:id/1    | Gets a ticket by id.   |  Expects `{"id", "username":"", "email", "password", "admin"}`|
 | PUT | /api/tickets/:id/1 | Deletes a ticket by id.   |  Expects `{no user information on body}`|
 | DELETE | /api/tickets/:id/1 | Deletes a ticket by id.   |  Expects `{no user information on body}`|
 
+
+-- post new ticket https://devdeskapi.herokuapp.com/api/tickets/
+-- get ticket by id https://devdeskapi.herokuapp.com/api/tickets/1
 
 -- get tickets list https://devdeskapi.herokuapp.com/api/tickets
 DATABASE_URL

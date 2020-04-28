@@ -9,9 +9,6 @@ module.exports = {
     remove,
 };
 
-
-
-
 function count() {
     return db("tickets")
         .count("title", { as: "count" })
@@ -27,10 +24,6 @@ function findById(id) {
 function findBy() {
     return db('tickets');
 }
-
-// function get(tickets) {
-//     return db('tickets');
-// }
 
 function getBy(data) {
     return db('tickets')
