@@ -15,35 +15,35 @@ module.exports = {
 
 
 function count() {
-    return db("logs")
+    return db("tickets")
         .count("title", { as: "count" })
         .first()
 }
 
 function findById(id) {
-    return db('logs')
+    return db('tickets')
         .where({ id })
         .first();
 }
 
 function get() {
-    return db('logs');
+    return db('tickets');
 }
 
 function getBy(data) {
-    return db('users')
+    return db('tickets')
         .where({ data })
 }
 
 function add(item) {
-    return db('items')
+    return db('tickets')
         .insert(item)
 }
 
-async function update(logs) {
-    if (logs.id && logs.title && logs.description && (logs.completed !== null)) {
-        const id = logs.id;
-        if (await db("logs").where({ id }).update(logs)) {
+async function update(tickets) {
+    if (tickets.id && tickets.title && tickets.description && (tickets.completed !== null)) {
+        const id = tickets.id;
+        if (await db("tickets").where({ id }).update(tickets)) {
             return { status: 202, success: 1, msg: `id${id} Update successful.` }
         } else {
             return { status: 500, success: 0, msg: "DB UPDATE Problem." }
@@ -63,7 +63,7 @@ async function update(logs) {
 // }
 
 function remove(id) {
-    return db('logs')
+    return db('tickets')
         .where({ id })
         .del();
 }
