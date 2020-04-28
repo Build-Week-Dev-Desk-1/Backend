@@ -4,7 +4,7 @@ module.exports = {
     findBy,
     findById,
     getBy,
-    //add,
+    add,
     update,
     remove,
 };
@@ -37,10 +37,10 @@ function getBy(data) {
         .where({ data })
 }
 
-// function add(item) {
-//     return db('tickets')
-//         .insert(item)
-// }
+function add(ticket) {
+    return db('tickets')
+        .insert(ticket)
+}
 
 async function update(tickets) {
     if (tickets.userid && tickets.id && tickets.title && tickets.description && (tickets.completed !== null)) {

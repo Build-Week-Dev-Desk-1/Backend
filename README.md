@@ -43,8 +43,8 @@
 
 
 -- get tickets list https://devdeskapi.herokuapp.com/api/tickets
-
-
+DATABASE_URL
+postgres://gqcdvnqxlnbqih:42e7ef9cb89be8590dd3ca5e41c7b61e09ec18c3532ca1e20ee1f3084b110743@ec2-35-171-31-33.compute-1.amazonaws.com:5432/dcrbk5lhb8f131
 
 -- resources Postgres
 -- DB_ENV production
