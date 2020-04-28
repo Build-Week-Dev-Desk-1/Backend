@@ -9,9 +9,14 @@ exports.up = function(knex) {
             users.boolean("admin").notNullable().defaultTo(false);
         })
         .createTable('tickets', tickets => {
-
             tickets.increments();
-            tickets.integer('userid').unsigned().references('id').inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
+            tickets
+                .integer('userid')
+                .unsigned()
+                .references('id')
+                .inTable('users')
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE');
             tickets.string("title", 255).notNullable();
             tickets.string("description", 800).notNullable();
             tickets.boolean("completed").defaultTo(false);
