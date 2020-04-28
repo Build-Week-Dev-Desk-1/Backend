@@ -24,7 +24,7 @@ function findById(id) {
         .first();
 }
 
-function findBy(id) {
+function findBy() {
     return db('tickets');
 }
 
