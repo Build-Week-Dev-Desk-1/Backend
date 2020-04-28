@@ -36,8 +36,8 @@
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
 | GET | /api/tickets | Get all tickets.   |  Output `{"id", "userid", "title", "description", "completed" }`|
-| POST | /api/tickets/:id/      | Gets ticket by ID    |Output `{"id", "userid", "title", "description", "completed" }`|
-| GET | /api/tickets/:id/1    | Updates a ticket by id.   |  Expects `{"id", "username":"", "email", "password", "admin"}`|
+| POST | /api/tickets/      | Creates ticket    |Expects `{"id", "userid", "title", "description", "completed" }`|
+| GET | /api/tickets/:id/1    | Gets a ticket by id.   |  Expects `{"id", "username":"", "email", "password", "admin"}`|
 | PUT | /api/tickets/:id/1 | Deletes a ticket by id.   |  Expects `{no user information on body}`|
 | DELETE | /api/tickets/:id/1 | Deletes a ticket by id.   |  Expects `{no user information on body}`|
 
