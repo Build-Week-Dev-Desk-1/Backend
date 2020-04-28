@@ -37,9 +37,9 @@ function getBy(data) {
         .where({ data })
 }
 
-function add(tickets) {
+function add(item) {
     return db('tickets')
-        .insert(tickets)
+        .insert(item)
 }
 
 async function update(tickets) {
