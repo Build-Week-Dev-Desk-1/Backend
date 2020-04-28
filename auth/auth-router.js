@@ -20,14 +20,8 @@ router.post("/register", (req, res) => {
 
         Users.add(user)
             .then(saved => {
-                //const token = generateToken(saved)
-                res.status(201).json({
-                    message: `Thanks for registering, ${saved.username}!`,
-                    username: saved.username,
-                    email: saved.email,
-                    password: saved.password
-
-                });
+                const token = generateToken(saved)
+                res.status(201).json({ id: saved.id, username: saved.username, token });
             })
             .catch(err => {
                 res.status(500).json({ msg: err })
@@ -42,13 +36,23 @@ router.post("/login", (req, res) => {
         .then(([user]) => {
             // if we find the user, then also check that passwords match
             if (user && bcrypt.compareSync(password, user.password)) {
+
+                // let admin;
+                user.admin ?
+                    user.admin = true :
+                    user.admin = false
+
                 // produce a token
                 const token = generateToken(user);
 
                 // send the token to the client
                 res.status(200).json({
                     message: `Welcome to the users section, ${user.username}!, here is your token`,
-                    token
+                    token,
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    admin: user.admin
                 });
             } else {
                 res.status(401).json({ message: "You cannot pass!" });

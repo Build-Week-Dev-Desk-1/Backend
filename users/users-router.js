@@ -4,9 +4,10 @@ const Users = require("./users-model.js");
 const jwt = require("jsonwebtoken");
 const secrets = require("../api/secrets.js");
 const auth = require('../auth/authenticator.js');
+
 //https://devdeskapi.herokuapp.com/api/users/
 // /api/users/logs
-router.post("/logs", (req, res) => {
+router.post("/", (req, res) => {
     //console.log("token", req.decodedToken);
     let logs = req.body
     Users.setUserLogs(logs)
@@ -23,7 +24,7 @@ router.get('/logs/:id', auth, (req, res) => {
     const id = req.params.id;
     Users.getAllLogsForUser(id)
         .then(logs => {
-            res.status(200).json(logs)
+            res.status(200).json({ msg: "unable to pass", logs })
         })
         .catch(error => {
             console.log(error);
@@ -33,6 +34,7 @@ router.get('/logs/:id', auth, (req, res) => {
             })
         })
 });
+//
 router.get('*', (req, res) => {
     res.status(404).json("Not Found.");
 });

@@ -3,6 +3,7 @@ const Logs = require('./logs-model.js');
 const router = express.Router();
 const authenticate = require('../auth/authenticate-middleware.js');
 // /api/logs/
+// localhost: 4000 / api / logs
 router.get('/', (req, res) => {
     Logs.get()
         .then(logs => {
@@ -26,6 +27,7 @@ router.get("/r", authenticate, (req, res) => {
 });
 
 // /api/logs/count
+// localhost:4000/api/logs/count
 router.get("/count", (req, res) => {
     Logs.count()
         .then(logs => {

@@ -36,8 +36,8 @@ function getBy(data) {
 }
 
 async function insert(logs) {
-    if (logs.title && logs.description && logs.completed) {
-        const [logs] = await db("logs").insert(logs);
+    if (logs.userid && logs.title && logs.description && (logs.completed !== null)) {
+        const logs = await db("logs").insert(logs);
         return ({ status: 201, msg: getById(logs) });
     } else {
         return ({ status: 401, msg: "incomplete ticket information. Please check all fields." })
