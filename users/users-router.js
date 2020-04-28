@@ -40,6 +40,7 @@ router.get('/:id', Restricted, (req, res) => {
 // @route PUT api/users/:id/1
 // @desc Update User
 // @access Private
+//https://devdeskapi.herokuapp.com/api/users/:id/4
 router.put('/:id', Restricted, (req, res) => {
     Users.update(req.body, req.params.id)
         .then(user => {
@@ -57,6 +58,7 @@ router.put('/:id', Restricted, (req, res) => {
 // @route Delete api/users/:id/1
 // @desc deletes User
 // @access Private
+//https://devdeskapi.herokuapp.com/api/users/:id/2
 router.delete('/:id', Restricted, (req, res) => {
     Users.remove(req.params.id)
         .then(user => {
