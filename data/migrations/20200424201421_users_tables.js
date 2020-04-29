@@ -19,19 +19,8 @@ exports.up = function(knex) {
             tickets.boolean('assigned').defaultTo(false);
             tickets.boolean('resolved').defaultTo(false);
 
-            // define a Foreign Key
-            // foreign key to user table // integer without negative values, db uses sign bit for larger #s
-            // regards deleting record from the primary key table // onDelete() can take 'RESTRICT', 'NO ACTION', 'SET NULL', 'CASCADE'
-            // regards chaging the value of the primary key table
         })
-        // .createTable('techs', techs => {
-        //     techs.increments();
-        //     //users.integer('userid').unsigned().references('id').inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
-        //     techs.string('username', 128).notNullable().unique();
-        //     techs.string('password', 255).notNullable();
-        //     techs.string('email', 255).notNullable().unique();
-        //     techs.boolean("admin").notNullable().defaultTo(true);
-        // })
+
 };
 
 exports.down = function(knex) {
