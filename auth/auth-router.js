@@ -21,10 +21,13 @@ router.post("/register", (req, res) => {
         Users.add(user)
             .then(saved => {
                 const token = generateToken(saved)
-                res.status(201).json({ id: saved.id, username: saved.username, token });
+                res.status(201).json({ id: saved.id, username: saved.username, role: saved.role, token });
             })
             .catch(err => {
-                res.status(500).json({ msg: err })
+                res.status(500).json({
+                    msg: "cannot an this user",
+                    err
+                })
             })
     })
     //https://devdeskapi.herokuapp.com/api/auth/login
@@ -51,8 +54,7 @@ router.post("/login", (req, res) => {
                     token,
                     id: user.id,
                     username: user.username,
-                    email: user.email,
-                    admin: user.admin
+                    role: user.role
                 });
             } else {
                 res.status(401).json({ message: "You cannot pass!" });
@@ -62,22 +64,6 @@ router.post("/login", (req, res) => {
             console.log(error);
             res.status(500).json({ errorMessage: error.message });
         });
-});
-
-router.get("/logout", (req, res) => {
-    if (req.session) {
-        req.session.destroy(error => {
-            if (error) {
-                res.status(500).json({
-                    errorMessage: "Unable to log out!!",
-                });
-            } else {
-                res.status(204).end();
-            }
-        });
-    } else {
-        res.status(204).end();
-    }
 });
 
 function generateToken(user) {
