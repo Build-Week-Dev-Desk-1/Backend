@@ -1,16 +1,7 @@
 const express = require('express');
 const Tickets = require('./tickets-model.js');
 const router = express.Router();
-//const Restricted = require('../auth/authenticate-middleware.js');
 
-
-
-// LIST ALL CLOSED TICKETS
-// LIST OPEN TICKETS
-
-
-
-/// LIST ALL TICKETS
 // @route GET api/tickets/
 // @desc get all tickets 
 // @access Private
@@ -53,25 +44,28 @@ router.get('/closed', (req, res) => {
 })
 
 
-// ADD TICKET
-// @route PUT api/tickets/
+
+// @route PUT api/tickets/newticket
 // @desc POST new ticket as a student
 // @access Private
-router.post('/', (req, res) => {
-    const { title, description, tried, category } = req.body;
-    const tickets = req.body;
-    Tickets.add(tickets)
-        .then(item => {
-            res.status(201).json({
-                msg: "ticket created!!",
-                item
+router.post('/newticket', (req, res) => {
+    const { title, description, tried, category } = req.body
+    if (req.user.role === 'student') {
+        if (!title || !description || !tried || !category) {
+            res.status(400).json({ message: "Missing ticket information." });
+        } else Tickets.add(req.body)
+            .then(ticket => {
+                Tickets.addTicketToStudent(req.user.id, ticket.id)
+                    .then(ticket => {
+                        res.status(201).json(ticket);
+                    })
             })
-        })
-        .catch(err => {
-            res.status(500).json({ message: "Could not add ticket", err })
-        })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ message: "Unable to add this ticket." })
+            })
+    } else res.status(400).json({ message: "Only students can add a ticket." })
 });
-
 
 
 

@@ -1,5 +1,6 @@
 const db = require('../data/dbConfig.js');
 module.exports = {
+    addToStudent,
     count,
     find,
     findBy,
@@ -45,6 +46,11 @@ async function add(ticket) {
 async function update(id, changes) {
     return await db('tickets')
         .where({ id }).update(changes).then(() => findById(id));
+}
+async function addToStudent(studentid, ticketid) {
+    return await db('students')
+        .insert({ studentid, ticketid }, 'id')
+        .then(() => findById(ticketid));
 }
 
 function remove(id) {
