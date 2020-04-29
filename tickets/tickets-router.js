@@ -78,8 +78,7 @@ router.put('/:id', (req, res) => {
 // @desc delete ticket by :id
 // @access Private
 router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    Tickets.remove(id)
+    Tickets.remove(req.params.id)
         .then(tickets => {
             if (tickets) {
                 res.json({ message: "Ticket removed" })
