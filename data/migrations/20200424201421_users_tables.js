@@ -10,7 +10,6 @@ exports.up = function(knex) {
         })
         .createTable('tickets', tickets => {
             tickets.increments();
-
             tickets.string('title', 128).notNullable();
             tickets.string('description', 800);
             tickets.string('tried', 800);
