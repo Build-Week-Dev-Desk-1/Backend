@@ -10,7 +10,6 @@ module.exports = {
     findStudent,
     findTicketById,
     getAllLogsForUser,
-    getTopTen,
     change,
     remove,
     removeAsgTicket,
