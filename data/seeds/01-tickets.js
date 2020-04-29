@@ -5,35 +5,35 @@ exports.seed = function(knex) {
             // Inserts seed entries
             return knex('tickets').insert([{
                     //userid: "",
-                    id: 1,
+                    //id: 1,
                     title: 'My mac does not work',
                     description: 'You will figure out what to put when you try it...',
-                    completed: "false",
-                    assigned: "false"
+                    tried: "Turning it off and on",
+                    category: "laptops"
                 },
                 {
                     //userid: "",
-                    id: 2,
-                    title: 'React.js is having issues',
-                    description: 'You will figure out when you see this data set...',
-                    completed: "false",
-                    assigned: "false"
+                    //id: 2,
+                    title: 'My windows pc does not work',
+                    description: 'You will figure out what to put when you try it...',
+                    tried: "Turning it off and on",
+                    category: "desktop"
                 },
                 {
                     //userid: "",
-                    id: 1,
-                    title: "Fixed hard drive on workstation 002",
-                    description: 'You will figure out when you see this data set...',
-                    completed: "false",
-                    assigned: "false"
+                    //id: 1,
+                    title: 'Unable to work with node.js',
+                    description: 'You will figure out what to put when you try it...',
+                    tried: "Reviewing the TK",
+                    category: "NODE JS"
                 },
                 {
                     //userid: "",
-                    id: 2,
-                    title: 'The slack migration was not working',
-                    description: 'You will figure out when you see this data set...',
-                    completed: "false",
-                    assigned: "false"
+                    //id: 2,
+                    title: 'CSS and HTML',
+                    description: 'You will figure out what to put when you try it...',
+                    tried: "Tried many things",
+                    category: "css html"
                 },
 
             ]);
