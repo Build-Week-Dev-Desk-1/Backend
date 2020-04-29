@@ -4,8 +4,10 @@ module.exports = {
     add,
     addTicket,
     find,
+    findTickets,
     findBy,
     findById,
+    findStudent,
     findTicketById,
     getAllLogsForUser,
     getTopTen,
@@ -20,7 +22,7 @@ module.exports = {
 async function addTicket(techid, ticketid) {
     return await db('assigned')
         .insert({ techid, ticketid }, 'id')
-        .then(() => findAssignedTickets(techid));
+        .then(() => findTickets(techid));
 }
 
 function find() {
@@ -34,6 +36,26 @@ function findBy(filter) {
 }
 
 
+async function findTickets(id) {
+    return await db('assigned as asg')
+        .where('techid', id)
+        .join('tickets as t', 'asg.ticketid', 't.id')
+        .select('asg.ticketid', 't.title', 't.description', 't.tried', 't.category', 't.solution');
+}
+
+async function findStudent(id) {
+    return await db('student_tickets as st')
+        .where('student_id', id)
+        .join('tickets as t', 'st.ticket_id', 't.id')
+        .select(
+            'st.ticket_id',
+            't.title',
+            't.description',
+            't.tried',
+            't.category',
+            't.solution'
+        );
+}
 async function add(user) {
     if (user.username && user.password && user.email) {
         const [id] = await db('users').insert(user, "id");

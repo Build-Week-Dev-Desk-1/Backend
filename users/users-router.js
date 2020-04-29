@@ -1,6 +1,7 @@
 const router = require("express").Router();
 //const bcrypt = require("bcryptjs");
 const Users = require("./users-model.js");
+const Tickets = require("./ticket-model.js");
 //const jwt = require("jsonwebtoken");
 // const secrets = require("../api/secrets.js");
 const Restricted = require('../auth/authenticate-middleware.js');
@@ -76,7 +77,28 @@ router.post('/add/:id/ticket', (req, res) => {
 // @route GET api/users/tickets
 // @desc GET User
 // @access Private
-
+router.get('/tickets', (req, res) => {
+    const userid = req.user.id;
+    if (req.user.role === 'student') {
+        Users.findStudent(userid)
+            .then(tickets => {
+                res.status(200).json(tickets)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ message: "Unable to get tickets!!" })
+            })
+    } else if (req.user.role === 'tech') {
+        Users.findTickets(userid)
+            .then(tickets => {
+                res.status(200).json(tickets)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ message: "Unagle to get tickets!!" })
+            })
+    } else res.status(400).json({ message: "Please specify the user role!!" });
+})
 
 
 
