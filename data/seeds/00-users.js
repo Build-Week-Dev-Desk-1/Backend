@@ -17,6 +17,20 @@ exports.seed = function(knex) {
                     password: 'password',
                     email: 'robbie@gmail.com',
                     role: 'student',
+                },
+                {
+                    //userid: '3',
+                    username: 'TonyUser',
+                    password: 'password2',
+                    email: 'test3@gmail.com',
+                    role: 'student',
+                },
+                {
+                    //userid: '3',
+                    username: 'Claudis',
+                    password: 'password3',
+                    email: 'test4@gmail.com',
+                    role: 'student',
                 }
             ]);
         });
