@@ -129,7 +129,7 @@ router.put('/ticket/:id/resolved', (req, res) => {
     const userid = req.user.id;
     const { solution } = req.body;
     if (solution) {
-        req.user.role === 'helper' ? Users.findAssignedTicketById(id)
+        req.user.role === 'tech' ? Users.findAssignedTicketById(id)
             .then(ticket => {
                 if (ticket) {
                     if (ticket.techid === userid) {
@@ -153,12 +153,11 @@ router.put('/ticket/:id/resolved', (req, res) => {
 //reassigned tickets
 router.put('/tickets/:id/reassign', (req, res) => {
     const { id } = req.params;
-    const user_id = req.user.id;
-    req.user.role === 'helper' ? Users.findAssignedTicketById(id)
+    const userid = req.user.id;
+    req.user.role === 'tech' ? Users.findAssignedTicketById(id)
         .then(ticket => {
             if (ticket) {
-                if (ticket.helper_id === user_id) {
-                    // Sets solution to null, ticket assignment and resolved status to false, and deletes assigned ticket entry
+                if (ticket.tech_id === userid) {
                     Tickets.update(id, { solution: null, assigned: false, resolved: false })
                         .then(updatedTicket => {
                             Users.removeAssignedTicket(id)
@@ -166,14 +165,14 @@ router.put('/tickets/:id/reassign', (req, res) => {
                                     res.status(200).json(updatedTicket)
                                 });
                         });
-                } else res.status(400).json({ message: "Cannot reassign ticket if it is not assigned to you." })
-            } else res.status(404).json({ message: "Ticket not found (invalid assignment)" });
+                } else res.status(400).json({ message: "Unable reassign ticket." })
+            } else res.status(404).json({ message: "Unable to find ticket" });
         })
         .catch(err => {
             console.log(err);
             res.status(500).json({ message: "Error updating the ticket." })
         }) :
-        res.status(400).json({ message: "Ticket updating restricted to helpers." });
+        res.status(400).json({ message: "Ticket updating restricted to techs." });
 });
 
 

@@ -13,6 +13,7 @@ module.exports = {
     getTopTen,
     change,
     remove,
+    removeAsgTicket,
     setUserLogs
 };
 
@@ -68,22 +69,22 @@ function findById(id) {
 }
 
 
+async function removeAsgTicket(ticket_id) {
+    return await db('assigned')
+        .where({ ticket_id })
+        .del();
+}
+
+
 function getAllLogsForUser(userid) {
     return db("logs").where({ userid })
 }
 
-function getTopTen() {
-    /* 
-    SELECT userid, title, users.username FROM logs
-    JOIN users on logs.userid = users.id
-    ORDER BY logs DESC LIMIT 5;
-     */
-    // return db("scores").orderBy('score', 'desc').limit(3);
 
-    return db("logs")
-        .select("title", "description", "users.username")
-        .join("users", "logs.userid", "users.id")
-        .orderBy('title', 'desc').limit(5);
+return db("logs")
+    .select("title", "description", "users.username")
+    .join("users", "logs.userid", "users.id")
+    .orderBy('title', 'desc').limit(5);
 }
 
 function change(user, id) {
