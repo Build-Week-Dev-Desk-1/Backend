@@ -1,7 +1,7 @@
 const router = require("express").Router();
 //const bcrypt = require("bcryptjs");
 const Users = require("./users-model.js");
-const Tickets = require("./ticket-model.js");
+const Tickets = require("./tickets-model.js");
 //const jwt = require("jsonwebtoken");
 // const secrets = require("../api/secrets.js");
 const Restricted = require('../auth/authenticate-middleware.js');
@@ -77,7 +77,7 @@ router.post('/add/:id/ticket', (req, res) => {
 // @route GET api/users/tickets
 // @desc GET User
 // @access Private
-router.get('/tickets', (req, res) => {
+router.get('/ticket', (req, res) => {
     const userid = req.user.id;
     if (req.user.role === 'student') {
         Users.findStudent(userid)
@@ -95,7 +95,7 @@ router.get('/tickets', (req, res) => {
             })
             .catch(err => {
                 console.log(err);
-                res.status(500).json({ message: "Unagle to get tickets!!" })
+                res.status(500).json({ message: "Unable to get tickets!!" })
             })
     } else res.status(400).json({ message: "Please specify the user role!!" });
 })
@@ -107,7 +107,7 @@ router.get('/tickets', (req, res) => {
 // @access Private
 //https://devdeskapi.herokuapp.com/api/users/:id/4
 router.put('/:id', Restricted, (req, res) => {
-    Users.update(req.body, req.params.id)
+    Users.change(req.body, req.params.id)
         .then(user => {
             if (user) {
                 res.json({ message: "User Updated" })
@@ -119,6 +119,46 @@ router.put('/:id', Restricted, (req, res) => {
             res.status(500).json({ message: "User could not be updated", err })
         })
 })
+
+// RESOLVE TICKET
+// @route PUT api/users/tickets/:id/resolve
+// @desc Update User
+// @access Private
+router.put('/ticket/:id/resolved', (req, res) => {
+    const { id } = req.params;
+    const userid = req.user.id;
+    const { solution } = req.body;
+    if (solution) {
+        req.user.role === 'helper' ? Users.findAssignedTicketById(id)
+            .then(ticket => {
+                if (ticket) {
+                    if (ticket.techid === userid) {
+                        // Sets ticket to resolved along with the included ticket solution
+                        Tickets.update(id, { solution, resolved: true })
+                            .then(updatedTicket => {
+                                res.status(200).json(updatedTicket)
+                            });
+                    } else res.status(400).json({ message: "Unable to resolve unassigned ticket." })
+                } else res.status(404).json({ message: "The ticket not found" });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ message: "Unable to update ticket." })
+            }) :
+            res.status(400).json({ message: "Ticket updating restricted to techs only." });
+    } else res.status(400).json({ message: "Please add a solution to the resolved ticket." });
+});
+
+
+
+
+
+
+
+
+
+
+
 
 // @route Delete api/users/:id/1
 // @desc deletes User

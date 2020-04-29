@@ -17,6 +17,7 @@ function count() {
 
 function findById(id) {
     return db('tickets')
+        .select('id', 'title', 'description', 'solution')
         .where({ id })
         .first();
 }
@@ -38,9 +39,7 @@ async function add(ticket) {
 
 async function update(id, changes) {
     return await db('tickets')
-        .where({ id })
-        .update(changes)
-        .then(() => findById(id));
+        .where({ id }).update(changes).then(() => findById(id));
 }
 
 function remove(id) {

@@ -11,9 +11,7 @@ module.exports = {
     findTicketById,
     getAllLogsForUser,
     getTopTen,
-    //getById,
-    // insert,
-    update,
+    change,
     remove,
     setUserLogs
 };
@@ -95,10 +93,10 @@ function getTopTen() {
         .orderBy('title', 'desc').limit(5);
 }
 
-function update(user, id) {
+function change(user, id) {
     return db('users')
         .where({ id })
-        .update(user);
+        .change(user);
 }
 
 async function setUserLogs(data) {
