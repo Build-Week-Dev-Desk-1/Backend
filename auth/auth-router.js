@@ -71,6 +71,7 @@ function generateToken(user) {
     const payload = {
         userId: user.id,
         username: user.username,
+        role: user.role
     };
     const secret = secrets.jwtSecret;
     const options = {
