@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
     const tickets = req.body;
     Tickets.add(tickets)
         .then(item => {
-            res.status(201).json(item)
+            res.status(201).json(msg: "ticket created!!", item)
         })
         .catch(err => {
             res.status(500).json({ message: "Could not add ticket", err })
