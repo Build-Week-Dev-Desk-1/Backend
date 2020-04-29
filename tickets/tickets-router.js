@@ -75,7 +75,7 @@ router.put('/:id', (req, res) => {
         })
 });
 
-// @route DELETE api/tickets/:id/1
+// @route DELETE api/tickets/:id
 // @desc delete ticket by :id
 // @access Private
 //https: //devdeskapi.herokuapp.com/api/tickets/1
@@ -83,7 +83,7 @@ router.delete('/:id', (req, res) => {
     Tickets.remove(req.params.id)
         .then(tickets => {
             if (tickets) {
-                res.json({ message: "Ticket removed", tickets })
+                res.json({ message: "Ticket removed!!!" })
             } else {
                 res.status(404).json({ message: "Ticket with specified ID does not exist" })
             }

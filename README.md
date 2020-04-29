@@ -37,9 +37,9 @@
 |-|-|-|-|
 | GET | /api/tickets/ | Get all tickets.   |  Output `{"id", "userid", "title", "description", "completed" }`|
 | POST | /api/tickets/      | Creates ticket    |Expects `{"id", "userid", "title", "description", "completed" }`|
-| GET | /api/tickets/:id/1    | Gets a ticket by id.   |  Expects `{"id", "username":"", "email", "password", "admin"}`|
-| PUT | /api/tickets/:id/1 | Updates a ticket by id.   |  Expects `{no user information on body}`|
-| DELETE | /api/tickets/:id/1 | Deletes a ticket by id.   |  Expects `{no user information on body}`|
+| GET | /api/tickets/:id    | Gets a ticket by id.   |  Expects `{"id", "username":"", "email", "password", "admin"}`|
+| PUT | /api/tickets/:id | Updates a ticket by id.   |  Expects `{no user information on body}`|
+| DELETE | api/tickets/:id | Deletes a ticket by id.   |  Expects `{no user information on body}`|
 
 
 -- Gets and Posts new ticket https://devdeskapi.herokuapp.com/api/tickets/
