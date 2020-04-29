@@ -16,7 +16,7 @@ router.get('/', Restricted, (req, res) => {
             res.json({ loggedInUser: req.username, user })
         })
         .catch(err => {
-            res.json(err)
+            res.status(500).json({ message: "Error retrieving this users", err })
         })
 });
 // @route GET api/users/:id/4
