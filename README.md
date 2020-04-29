@@ -4,12 +4,13 @@
 
 # `Dev Desk` Table
 
-- Field contents are not checked for formatting or proper data. *Garbage in, garbage out.*
-- Check the `getById` output example below for the fields to send.
-- `POST` - all fields are required *except id*.
+# `Users` Table
+- Register and Log in user
+- Ability to determine user as admin with boolean true false
+- Obtain list of users and user by id
+- Update users by id
+- Delete users by id
 
-
-# `users` Table
 
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
@@ -33,6 +34,11 @@
 
 # `Tickets` Table
 
+- Post a new ticket
+- Obtain list of tickets and ticket by id
+- Update ticket by id
+- Delete ticket by id
+
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
 | GET | /api/tickets/ | Get all tickets.   |  Output `{"id", "userid", "title", "description", "completed" }`|
@@ -47,8 +53,7 @@
 -- Gets, Updates, Deletes ticket by id https://devdeskapi.herokuapp.com/api/tickets/1
 
 -- Gets tickets list https://devdeskapi.herokuapp.com/api/tickets
-DATABASE_URL
-postgres://gqcdvnqxlnbqih:42e7ef9cb89be8590dd3ca5e41c7b61e09ec18c3532ca1e20ee1f3084b110743@ec2-35-171-31-33.compute-1.amazonaws.com:5432/dcrbk5lhb8f131
 
--- resources Postgres
--- DB_ENV production
+-- Updates tickets by id https://devdeskapi.herokuapp.com/api/tickets/1
+
+-- Deletes tickets by id https://devdeskapi.herokuapp.com/api/tickets/10
