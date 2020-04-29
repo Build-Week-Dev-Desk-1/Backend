@@ -134,8 +134,8 @@ router.put('/ticket/:id/resolved', (req, res) => {
                 if (ticket) {
                     if (ticket.techid === userid) {
                         Tickets.update(id, { solution, resolved: true })
-                            .then(updatedTicket => {
-                                res.status(200).json(updatedTicket)
+                            .then(update => {
+                                res.status(200).json(update)
                             });
                     } else res.status(400).json({ message: "Unable to resolve unassigned ticket." })
                 } else res.status(404).json({ message: "The ticket not found" });
@@ -150,6 +150,9 @@ router.put('/ticket/:id/resolved', (req, res) => {
 
 
 //reassigned tickets
+//@route /tickets/:id/reassign
+// @desc reassigned tickets
+// @access Private
 router.put('/tickets/:id/reassign', (req, res) => {
     const { id } = req.params;
     const userid = req.user.id;
@@ -158,10 +161,10 @@ router.put('/tickets/:id/reassign', (req, res) => {
             if (ticket) {
                 if (ticket.techid === userid) {
                     Tickets.update(id, { solution: null, assigned: false, resolved: false })
-                        .then(updatedTicket => {
+                        .then(update => {
                             Users.removeAsgTicket(id)
                                 .then(() => {
-                                    res.status(200).json(updatedTicket)
+                                    res.status(200).json(update)
                                 });
                         });
                 } else res.status(400).json({ message: "Unable reassign ticket." })
@@ -174,27 +177,36 @@ router.put('/tickets/:id/reassign', (req, res) => {
         res.status(400).json({ message: "Ticket updating restricted to techs." });
 });
 
-
-
-
-
-
-// @route Delete api/users/:id/1
-// @desc deletes User
+// @route Delete api/users/tickets/:id
+// @desc deletes tickets by id
 // @access Private
 //https://devdeskapi.herokuapp.com/api/users/:id/2
-router.delete('/:id', Restricted, (req, res) => {
-    Users.remove(req.params.id)
-        .then(user => {
-            if (user) {
-                res.json({ message: "User removed" })
-            } else {
-                res.status(404).json({ message: "User with specified ID does not exist" })
-            }
+router.delete('/tickets/:id', Restricted, (req, res) => {
+    const { id } = req.params;
+    const userid = req.user.id;
+    req.user.role === 'student' ? Users.findStdTicketById(id)
+        .then(ticket => {
+            if (ticket) {
+                if (ticket.studentid === userid) {
+                    Users.removeTicket(id)
+                        .then(() => {
+                            Tickets.remove(id)
+                                .then(() => {
+                                    res.status(200).json({ message: "Ticket was deleted!!." });
+                                })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json({ message: "Error deleting this ticket." })
+                        })
+                } else res.status(400).json({ message: "You may not delete the ticket it." })
+            } else res.status(404).json({ message: "Ticket could not be found." })
         })
         .catch(err => {
-            res.status(500).json({ message: "User could not be removed", err })
-        })
+            console.log(err);
+            res.status(500).json({ message: "Unable to remove...here was an error deleting the ticket ." });
+        }) :
+        res.status(400).json({ message: "Deleting tickets is restricted to students." })
 })
 
 module.exports = router;

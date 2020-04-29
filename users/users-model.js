@@ -9,11 +9,12 @@ module.exports = {
     findById,
     findStudent,
     findTicketById,
-    getAllLogsForUser,
     change,
     remove,
     removeAsgTicket,
-    setUserLogs
+    removeTicket,
+    setUserLogs,
+    findStdTicketById
 };
 
 
@@ -47,6 +48,13 @@ async function findStudent(id) {
         .join('tickets as t', 'st.ticketid', 't.id')
         .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category', 't.solution');
 }
+
+async function findStdTicketById(ticketid) {
+    return await db('students')
+        .select('id', 'studentid', 'ticketid')
+        .where({ ticketid })
+        .first();
+}
 async function add(user) {
     if (user.username && user.password && user.email) {
         const [id] = await db('users').insert(user, "id");
@@ -63,7 +71,6 @@ async function findTicketById(ticketid) {
 }
 
 function findById(id) {
-    //return db('users').select('id', 'username', 'email', 'admin').where({ userid: id }).first();
     return db('users').where({ id: id }).first();
 }
 
@@ -73,17 +80,10 @@ async function removeAsgTicket(ticket_id) {
         .where({ ticket_id })
         .del();
 }
-
-
-function getAllLogsForUser(userid) {
-    return db("logs").where({ userid })
-}
-
-
-return db("logs")
-    .select("title", "description", "users.username")
-    .join("users", "logs.userid", "users.id")
-    .orderBy('title', 'desc').limit(5);
+async function removeTicket(ticketid) {
+    return await db('students')
+        .where({ ticketid })
+        .del();
 }
 
 function change(user, id) {
