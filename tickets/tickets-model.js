@@ -35,23 +35,23 @@ function add(tickets) {
         .insert(tickets)
 }
 
-async function update(tickets) {
-    if (tickets.userid && tickets.id && tickets.title && tickets.description && (tickets.completed !== null)) {
-        const id = tickets.id;
-        if (await db("tickets").where({ id }).update(tickets)) {
-            return { status: 202, success: 1, msg: `id ${id} Update successful.` }
-        } else {
-            return { status: 500, success: 0, msg: "DB UPDATE Problem." }
-        }
-    } else {
-        return ({ status: 418, success: 0, msg: "Incomplete ticket log details. Check that all fields are sent." })
-    }
-}
-// function update(tickets, id) {
-//     return db('tickets')
-//         .where({ id })
-//         .update(tickets);
+// async function update(tickets) {
+//     if (tickets.userid && tickets.id && tickets.title && tickets.description && (tickets.completed !== null)) {
+//         const id = tickets.id;
+//         if (await db("tickets").where({ id }).update(tickets)) {
+//             return { status: 202, success: 1, msg: `id ${id} Update successful.` }
+//         } else {
+//             return { status: 500, success: 0, msg: "DB UPDATE Problem." }
+//         }
+//     } else {
+//         return ({ status: 418, success: 0, msg: "Incomplete ticket log details. Check that all fields are sent." })
+//     }
 // }
+function update(tickets, id) {
+    return db('tickets')
+        .where({ id })
+        .update(tickets);
+}
 
 // async function remove(id) {
 //     if (await db("logs").where({ id }).del()) {
