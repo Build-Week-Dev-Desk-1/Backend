@@ -57,14 +57,11 @@ router.get('/:id', (req, res) => {
 // @desc Update ticket by id 
 // @access Private
 router.put('/:id', (req, res) => {
-    const tickets = req.body;
-    const id = req.params.id;
-    Tickets.update(id, tickets)
+    Tickets.update(req.body, req.params.id)
         .then(tickets => {
             if (tickets) {
                 res.status(200).json({
-                    message: "Ticket was updated!!!",
-                    tickets
+                    message: "Ticket was updated!!!"
                 })
             } else {
                 res.status(404).json({ message: "Ticket with specified ID does not exist" })
