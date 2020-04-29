@@ -33,9 +33,10 @@ router.post('/', (req, res) => {
         })
 });
 
-// @route GET api/tickets/:id/1
+// @route GET api/tickets/:id/
 // @desc get tickets by id 
 // @access Private
+//https: //devdeskapi.herokuapp.com/api/tickets/1
 router.get('/:id', (req, res) => {
     Tickets.findById(req.params.id)
         .then(tickets => {
@@ -77,11 +78,12 @@ router.put('/:id', (req, res) => {
 // @route DELETE api/tickets/:id/1
 // @desc delete ticket by :id
 // @access Private
+//https: //devdeskapi.herokuapp.com/api/tickets/1
 router.delete('/:id', (req, res) => {
     Tickets.remove(req.params.id)
         .then(tickets => {
             if (tickets) {
-                res.json({ message: "Ticket removed" })
+                res.json({ message: "Ticket removed", tickets })
             } else {
                 res.status(404).json({ message: "Ticket with specified ID does not exist" })
             }
