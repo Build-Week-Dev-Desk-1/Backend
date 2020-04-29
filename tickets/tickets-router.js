@@ -56,6 +56,7 @@ router.get('/:id', (req, res) => {
 // @route PUT api/tickets/:id/1
 // @desc Update ticket by id 
 // @access Private
+//https: //devdeskapi.herokuapp.com/api/tickets/1
 router.put('/:id', (req, res) => {
     Tickets.update(req.body, req.params.id)
         .then(tickets => {
