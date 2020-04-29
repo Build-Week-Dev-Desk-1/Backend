@@ -55,9 +55,10 @@ router.get('/closed', (req, res) => {
 
 // ADD TICKET
 // @route PUT api/tickets/
-// @desc POST new ticket 
+// @desc POST new ticket as a student
 // @access Private
 router.post('/', (req, res) => {
+    const { title, description, tried, category } = req.body;
     const tickets = req.body;
     Tickets.add(tickets)
         .then(item => {
