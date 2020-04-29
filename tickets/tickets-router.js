@@ -12,7 +12,7 @@ const router = express.Router();
 
 /// LIST ALL TICKETS
 // @route GET api/tickets/
-// @desc get tickets 
+// @desc get all tickets 
 // @access Private
 router.get('/', (req, res) => {
     Tickets.findBy()
@@ -23,6 +23,35 @@ router.get('/', (req, res) => {
             res.json(err)
         })
 });
+
+
+
+// @route GET api/tickets/open
+// @desc get OPEN tickets not assigned
+// @access Private
+router.get('/open', (req, res) => {
+    Tickets.find({ assigned: false })
+        .then(tickets => {
+            res.status(200).json(tickets)
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        });
+});
+
+// @route GET api/tickets/closed
+// @desc get OPEN tickets not resolved
+// @access Private
+router.get('/closed', (req, res) => {
+    Tickets.find({ resolved: true })
+        .then(tickets => {
+            res.status(200).json(tickets)
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        });
+})
+
 
 // ADD TICKET
 // @route PUT api/tickets/
@@ -41,6 +70,9 @@ router.post('/', (req, res) => {
             res.status(500).json({ message: "Could not add ticket", err })
         })
 });
+
+
+
 
 // @route GET api/tickets/:id/
 // @desc get tickets by id 
