@@ -2,12 +2,12 @@
 
 # Backend
 
-# `Dev Desk` Table
+# `Dev Desk Backend API` 
 
 # `Users` Table
 - Register and Log in user
-- Ability to determine user as admin with boolean true false
-- Obtain list of users and user by id
+- Ability to determine user as admin(helper) or student with boolean true || false
+- Get list of users and user by id
 - Update users by id
 - Delete users by id
 
@@ -42,10 +42,12 @@
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
 | GET | /api/tickets/ | Get all tickets.   |  Output `{"id", "userid", "title", "description", "completed" }`|
-| POST | /api/tickets/      | Creates ticket    |Expects `{"id", "userid", "title", "description", "completed" }`|
-| GET | /api/tickets/:id    | Gets a ticket by id.   |  Expects `{"id", "username":"", "email", "password", "admin"}`|
+| POST | /api/tickets/      | Creates ticket    |Expects `{"id", "userid", "title", "description", "completed", "assigned" }`|
+| GET | /api/tickets/:id    | Gets a ticket by id.   |  Expects `{"id","userid", "title", "description", "completed", "assigned" }`|
 | PUT | /api/tickets/:id | Updates a ticket by id.   |  Expects `{no user information on body}`|
 | DELETE | api/tickets/:id | Deletes a ticket by id.   |  Expects `{no user information on body}`|
+
+-- title, description, what I've tried, category 
 
 
 -- Gets and Posts new ticket https://devdeskapi.herokuapp.com/api/tickets/
