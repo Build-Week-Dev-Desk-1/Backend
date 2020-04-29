@@ -2,9 +2,11 @@ const db = require("../data/dbConfig.js");
 
 module.exports = {
     add,
+    addTicket,
     find,
     findBy,
     findById,
+    findTicketById,
     getAllLogsForUser,
     getTopTen,
     //getById,
@@ -13,6 +15,13 @@ module.exports = {
     remove,
     setUserLogs
 };
+
+
+async function addTicket(techid, ticketid) {
+    return await db('assigned')
+        .insert({ techid, ticketid }, 'id')
+        .then(() => findAssignedTickets(techid));
+}
 
 function find() {
     return db('users').select('id', 'username', 'email', 'admin');
@@ -25,29 +34,20 @@ function findBy(filter) {
 }
 
 
-
-// async function add(user) {
-//     const [id] = await db("users").insert(user, "id");
-
-//     return findById(id);
-// }
-
 async function add(user) {
-    // sends info, gets id back
-    // id is destructured from an array?
     if (user.username && user.password && user.email) {
         const [id] = await db('users').insert(user, "id");
         return findById(id);
     } else {
-        return ({ err: "Incomplete registration info. Check that all fields are sent." })
+        return ({ err: "Plese check that all fields are sent." })
     }
 }
-
-// function findById(id) {
-//     return db('users')
-//         .where({ id })
-//         .first();
-// }
+async function findTicketById(ticket_id) {
+    return await db('assigned')
+        .select('id', 'techid', 'ticketid')
+        .where({ ticket_id })
+        .first();
+}
 
 function findById(id) {
     //return db('users').select('id', 'username', 'email', 'admin').where({ userid: id }).first();

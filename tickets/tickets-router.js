@@ -3,6 +3,14 @@ const Tickets = require('./tickets-model.js');
 const router = express.Router();
 //const Restricted = require('../auth/authenticate-middleware.js');
 
+
+
+// LIST ALL CLOSED TICKETS
+// LIST OPEN TICKETS
+
+
+
+/// LIST ALL TICKETS
 // @route GET api/tickets/
 // @desc get tickets 
 // @access Private
@@ -16,6 +24,7 @@ router.get('/', (req, res) => {
         })
 });
 
+// ADD TICKET
 // @route PUT api/tickets/
 // @desc POST new ticket 
 // @access Private
@@ -75,6 +84,8 @@ router.put('/:id', (req, res) => {
         })
 });
 
+
+// DELETE A TICKET
 // @route DELETE api/tickets/:id
 // @desc delete ticket by :id
 // @access Private

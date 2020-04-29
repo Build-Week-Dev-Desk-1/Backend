@@ -30,15 +30,17 @@ function getBy(data) {
         .where({ data })
 }
 
-function add(tickets) {
-    return db('tickets')
-        .insert(tickets)
+async function add(ticket) {
+    return await db('tickets')
+        .insert(ticket, 'id')
+        .then(([id]) => findById(id));
 }
 
-function update(tickets, id) {
-    return db('tickets')
+async function update(id, changes) {
+    return await db('tickets')
         .where({ id })
-        .update(tickets);
+        .update(changes)
+        .then(() => findById(id));
 }
 
 function remove(id) {

@@ -6,7 +6,7 @@ const Users = require("./users-model.js");
 const Restricted = require('../auth/authenticate-middleware.js');
 
 // @route GET api/users/
-// @desc Get all users informatin
+// @desc Get all users information
 // @ access Private
 //https://devdeskapi.herokuapp.com/api/users
 router.get('/', Restricted, (req, res) => {
@@ -36,6 +36,49 @@ router.get('/:id', Restricted, (req, res) => {
             res.status(500).json({ message: "Could not get user", err })
         })
 })
+
+
+
+//Assign a ticket to user
+// @route POST api/users/add/:id/ticket
+// @desc Assings ticket to User
+// @access 
+router.post('/add/:id/ticket', (req, res) => {
+    const techid = req.user.id;
+    const { id } = req.params;
+    req.user.role === 'tech' ?
+        Users.findTicketById(id)
+        .then(ticket => {
+            if (!ticket) {
+                Users.addTicket(techid, id)
+                    .then(tickets => {
+                        Tickets.update(id, { assigned: true })
+                        res.status(200).json(tickets);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({ message: "Unable to assign ticket." })
+                    })
+            } else res.status(400).json({ message: "This ticket has already been assigned." })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ message: "There is an error on assigning ticket." })
+        }) :
+        res.status(400).json({ message: "Ticket assignment restricted to techs only." });
+});
+
+
+
+
+
+//GET USERS TICKETS
+// @route GET api/users/tickets
+// @desc GET User
+// @access Private
+
+
+
 
 // @route PUT api/users/:id/1
 // @desc Update User
