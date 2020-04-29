@@ -74,7 +74,7 @@ router.post('/add/:id/ticket', (req, res) => {
 
 
 //GET USERS TICKETS
-// @route GET api/users/tickets
+// @route GET api/users/ticket
 // @desc GET User
 // @access Private
 router.get('/ticket', (req, res) => {
@@ -150,10 +150,31 @@ router.put('/ticket/:id/resolved', (req, res) => {
 });
 
 
-
-
-
-
+//reassigned tickets
+router.put('/tickets/:id/reassign', (req, res) => {
+    const { id } = req.params;
+    const user_id = req.user.id;
+    req.user.role === 'helper' ? Users.findAssignedTicketById(id)
+        .then(ticket => {
+            if (ticket) {
+                if (ticket.helper_id === user_id) {
+                    // Sets solution to null, ticket assignment and resolved status to false, and deletes assigned ticket entry
+                    Tickets.update(id, { solution: null, assigned: false, resolved: false })
+                        .then(updatedTicket => {
+                            Users.removeAssignedTicket(id)
+                                .then(() => {
+                                    res.status(200).json(updatedTicket)
+                                });
+                        });
+                } else res.status(400).json({ message: "Cannot reassign ticket if it is not assigned to you." })
+            } else res.status(404).json({ message: "Ticket not found (invalid assignment)" });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ message: "Error updating the ticket." })
+        }) :
+        res.status(400).json({ message: "Ticket updating restricted to helpers." });
+});
 
 
 

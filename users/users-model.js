@@ -42,17 +42,10 @@ async function findTickets(id) {
 }
 
 async function findStudent(id) {
-    return await db('student_tickets as st')
-        .where('student_id', id)
-        .join('tickets as t', 'st.ticket_id', 't.id')
-        .select(
-            'st.ticket_id',
-            't.title',
-            't.description',
-            't.tried',
-            't.category',
-            't.solution'
-        );
+    return await db('students as st')
+        .where('studentid', id)
+        .join('tickets as t', 'st.ticketid', 't.id')
+        .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category', 't.solution');
 }
 async function add(user) {
     if (user.username && user.password && user.email) {
