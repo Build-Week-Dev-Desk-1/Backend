@@ -67,22 +67,22 @@ router.get('/:id', (req, res) => {
 // @desc Update ticket by id 
 // @access Private
 //https: //devdeskapi.herokuapp.com/api/tickets/1
-router.put('/:id', (req, res) => {
-    Tickets.update(req.body, req.params.id)
-        .then(tickets => {
-            if (tickets) {
-                res.status(200).json({
-                    message: "Ticket was updated!!!"
-                })
-            } else {
-                res.status(404).json({ message: "Ticket with specified ID does not exist" })
-            }
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({ message: "Could not update Ticket" })
-        })
-});
+// router.put('/:id', (req, res) => {
+//     Tickets.update(req.body, req.params.id)
+//         .then(tickets => {
+//             if (tickets) {
+//                 res.status(200).json({
+//                     message: "Ticket was updated!!!"
+//                 })
+//             } else {
+//                 res.status(404).json({ message: "Ticket with specified ID does not exist" })
+//             }
+//         })
+//         .catch(error => {
+//             console.log(error);
+//             res.status(500).json({ message: "Could not update Ticket" })
+//         })
+// });
 
 
 // DELETE A TICKET

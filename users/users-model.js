@@ -55,10 +55,10 @@ async function add(user) {
         return ({ err: "Plese check that all fields are sent." })
     }
 }
-async function findTicketById(ticket_id) {
+async function findTicketById(ticketid) {
     return await db('assigned')
         .select('id', 'techid', 'ticketid')
-        .where({ ticket_id })
+        .where({ ticketid })
         .first();
 }
 

@@ -129,11 +129,10 @@ router.put('/ticket/:id/resolved', (req, res) => {
     const userid = req.user.id;
     const { solution } = req.body;
     if (solution) {
-        req.user.role === 'tech' ? Users.findAssignedTicketById(id)
+        req.user.role === 'tech' ? Users.findTicketById(id)
             .then(ticket => {
                 if (ticket) {
                     if (ticket.techid === userid) {
-                        // Sets ticket to resolved along with the included ticket solution
                         Tickets.update(id, { solution, resolved: true })
                             .then(updatedTicket => {
                                 res.status(200).json(updatedTicket)
@@ -154,13 +153,13 @@ router.put('/ticket/:id/resolved', (req, res) => {
 router.put('/tickets/:id/reassign', (req, res) => {
     const { id } = req.params;
     const userid = req.user.id;
-    req.user.role === 'tech' ? Users.findAssignedTicketById(id)
+    req.user.role === 'tech' ? Users.findTicketById(id)
         .then(ticket => {
             if (ticket) {
-                if (ticket.tech_id === userid) {
+                if (ticket.techid === userid) {
                     Tickets.update(id, { solution: null, assigned: false, resolved: false })
                         .then(updatedTicket => {
-                            Users.removeAssignedTicket(id)
+                            Users.removeAsgTicket(id)
                                 .then(() => {
                                     res.status(200).json(updatedTicket)
                                 });
