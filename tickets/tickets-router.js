@@ -40,7 +40,10 @@ router.get('/:id', (req, res) => {
     Tickets.findById(req.params.id)
         .then(tickets => {
             if (tickets) {
-                res.json(tickets)
+                res.json({
+                    msg: "Ticket was found!!",
+                    tickets
+                })
             } else {
                 res.status(404).json({ message: "The log with the specified ID does not exist" })
             }
@@ -59,7 +62,10 @@ router.put('/:id', (req, res) => {
     Tickets.update(id, tickets)
         .then(tickets => {
             if (tickets) {
-                res.status(200).json(tickets)
+                res.status(200).json({
+                    message: "Ticket was updated!!!",
+                    tickets
+                })
             } else {
                 res.status(404).json({ message: "Ticket with specified ID does not exist" })
             }
