@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
             res.json(err)
         })
 });
-// @route GET api/users/:id/4
+// @route GET /users/:id/4
 // @desc Get all users informatin
 // @ access Private
 //https: //devdeskapi.herokuapp.com/api/users/id
@@ -58,13 +58,13 @@ router.post('/ticket/:id/asgn', (req, res) => {
     const techid = req.user.id;
     const { id } = req.params;
     req.user.role === 'tech' ?
-        Users.findTicketById(id)
+        Users.findAssignedTicketById(id)
         .then(ticket => {
-            if (!ticket) {
-                Users.addTicket(techid, id)
-                    .then(tickets => {
+            if (ticket) {
+                Users.assignTicket(techid, id)
+                    .then(ticket => {
                         Tickets.update(id, { assigned: true })
-                        res.status(200).json(tickets);
+                        res.status(200).json(ticket);
                     })
                     .catch(err => {
                         console.log(err);
@@ -163,14 +163,15 @@ router.put('/ticket/:id/resolved', (req, res) => {
 //@route /tickets/:id/reassign
 // @desc reassigned tickets
 // @access Private
+//////**********************/
 router.put('/tickets/:id/reassign', (req, res) => {
     const { id } = req.params;
     const userid = req.user.id;
     req.user.role === 'tech' ? Users.findTicketById(id)
         .then(ticket => {
-            if (ticket) {
+            if (!ticket) {
                 if (ticket.techid === userid) {
-                    Tickets.update(id, { solution: null, assigned: false, resolved: false })
+                    Tickets.assignTicket(id, { solution: null, assigned: false, resolved: false })
                         .then(update => {
                             Users.removeAsgTicket(id)
                                 .then(() => {
