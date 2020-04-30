@@ -9,28 +9,25 @@ const secrets = require("../api/secrets.js");
 router.post('/register', async(req, res) => {
     const { username, password, role } = req.body;
     if (role === 'tech' || role === 'student') {
-        try {
-            if (username && password && role) {
-                let user = req.body;
-                const hash = bcrypt.hashSync(user.password, 10);
-                user.password = hash;
 
-                await Users.add(user)
-                    .then(saved => {
-                        const token = generateToken(saved);
-                        res.status(201).json({
-                            id: saved.id,
-                            username: saved.username,
-                            useremail: saved.email,
-                            role: saved.role,
-                            token
-                        })
+        if (username && password && role) {
+            let user = req.body;
+            const hash = bcrypt.hashSync(user.password, 10);
+            user.password = hash;
+
+            await Users.add(user)
+                .then(saved => {
+                    const token = generateToken(saved);
+                    res.status(201).json({
+                        id: saved.id,
+                        username: saved.username,
+                        useremail: saved.email,
+                        role: saved.role,
+                        token
                     })
-            } else res.status(400).json({ message: "Missing some parameters" });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: 'cannot add this user', error });
-        }
+                })
+        } else res.status(400).json({ message: "Missing some parameters" });
+
     } else res.status(400).json({ message: "Invalid role being sent" });
 });
 
