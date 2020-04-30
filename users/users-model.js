@@ -93,7 +93,7 @@ function findStdTicketById(id) {
 
 
 function add(user) {
-    const [id] = await db('users').insert(user);
+    const [id] = db('users').insert(user);
     return findById(id);
 }
 
