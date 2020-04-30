@@ -47,6 +47,7 @@ router.post('/login', (req, res) => {
                     message: `Welcome ${user.username}!`,
                     id: user.id,
                     username: user.username,
+                    password: user.password,
                     role: user.role,
                     token,
                 });
