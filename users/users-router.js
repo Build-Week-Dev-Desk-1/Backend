@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
             res.json(err)
         })
 });
-// @route GET api/users/:id/4
+// @route GET /users/:id/4
 // @desc Get all users informatin
 // @ access Private
 //https: //devdeskapi.herokuapp.com/api/users/id
@@ -48,45 +48,27 @@ router.get('/:id', Restricted, (req, res) => {
         })
 })
 
-
-
-//Assign a ticket to user
-// @route POST users/ticket/:id/asgn
-// @desc Adding ticket to User
-// @access 
-router.post('/ticket/:id/asgn', (req, res) => {
-    const techid = req.user.id;
-    const { id } = req.params;
-    req.user.role === 'tech' ?
-        Users.findTicketById(id)
-        .then(ticket => {
-            if (!ticket) {
-                Users.addTicket(techid, id)
-                    .then(tickets => {
-                        Tickets.update(id, { assigned: true })
-                        res.status(200).json(tickets);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({ message: "Unable to assign ticket." })
-                    })
-            } else res.status(400).json({ message: "This ticket has already been assigned." })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ message: "There is an error on assigning ticket." })
-        }) :
-        res.status(400).json({ message: "Ticket assignment restricted to techs only." });
-});
-
-
-
-
-
-//GET USERS TICKETS
-// @route GET api/users/ticket
-// @desc GET User tickets
+// @route PUT api/users/:id/1
+// @desc Update User
 // @access Private
+//https://devdeskapi.herokuapp.com/users/:id/4
+router.put('/:id', (req, res) => {
+        Users.change(req.body, req.params.id)
+            .then(user => {
+                if (user) {
+                    res.json({ message: "User Updated" })
+                } else {
+                    res.status(404).json({ message: "User with specified ID does not exist" })
+                }
+            })
+            .catch(err => {
+                res.status(500).json({ message: "User could not be updated", err })
+            })
+    })
+    //GET USERS TICKETS
+    // @route GET api/users/ticket
+    // @desc GET User tickets
+    // @access Private
 router.get('/ticket', Restricted, (req, res) => {
     const userid = req.user.id;
     if (req.user.role === 'student') {
@@ -99,7 +81,7 @@ router.get('/ticket', Restricted, (req, res) => {
                 res.status(500).json({ message: "Unable to get tickets!!" })
             })
     } else if (req.user.role === 'tech') {
-        Users.findTickets(userid)
+        Users.findAssignedTickets(userid)
             .then(tickets => {
                 res.status(200).json(tickets)
             })
@@ -111,24 +93,87 @@ router.get('/ticket', Restricted, (req, res) => {
 })
 
 
+//Assign a ticket to user
+// @route POST users/ticket/:id/asgn
+// @desc Adding ticket to User
+// @access 
+// router.post('/ticket/:id/asgn', (req, res) => {
+//     const techid = req.user.id;
+//     const { id } = req.params;
+//     req.user.role === 'tech' ? Users.findAssignedTicketById(id)
+//         .then(ticket => {
+//             if (!ticket) {
+//                 Users.assignTicket(techid, id)
+//                     .then(ticket => {
+//                         Tickets.update(id, { assigned: true })
+//                         res.status(200).json(ticket);
+//                     })
+//                     .catch(err => {
+//                         console.log(err);
+//                         res.status(500).json({ message: "Unable to assign ticket." })
+//                     })
+//             } else res.status(400).json({ message: "This ticket has already been assigned." })
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({ message: "There is an error on assigning ticket." })
+//         }) :
+//         res.status(400).json({ message: "Ticket assignment restricted to techs only." });
+// });
 
-// @route PUT api/users/:id/1
-// @desc Update User
-// @access Private
-//https://devdeskapi.herokuapp.com/users/:id/4
-router.put('/:id', (req, res) => {
-    Users.change(req.body, req.params.id)
-        .then(user => {
-            if (user) {
-                res.json({ message: "User Updated" })
-            } else {
-                res.status(404).json({ message: "User with specified ID does not exist" })
-            }
+router.post('/ticket/:id/asgn', (req, res) => {
+    const techid = req.user.id;
+    const { id } = req.params;
+    req.user.role === 'tech' ? Users.findAssignedTicketById(id)
+        .then(ticket => {
+            if (!ticket) {
+                Users.assignTicket(techid, id)
+                    .then(tickets => {
+                        Tickets.update(id, { assigned: true })
+                        res.status(200).json(tickets);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({ message: "Failed to assign ticket." })
+                    })
+            } else res.status(400).json({ message: "Ticket has already been assigned." })
         })
         .catch(err => {
-            res.status(500).json({ message: "User could not be updated", err })
+            console.log(err);
+            res.status(500).json({ message: "Error assigning the ticket." })
+        }) :
+        res.status(400).json({ message: "Ticket assignment restricted to techs only." });
+});
+
+
+//reassigned tickets
+//@route /tickets/:id/reassign
+// @desc reassigned tickets
+// @access Private
+//////**********************/
+router.put('/tickets/:id/reassign', (req, res) => {
+    const { id } = req.params;
+    const userid = req.user.id;
+    req.user.role === 'tech' ? Users.findTicketById(id)
+        .then(ticket => {
+            if (!ticket) {
+                if (ticket.techid === userid) {
+                    Tickets.assignTicket(id, { solution: null, assigned: false, resolved: false })
+                        .then(update => {
+                            Users.removeAsgTicket(id)
+                                .then(() => {
+                                    res.status(200).json(update)
+                                });
+                        });
+                } else res.status(400).json({ message: "Unable reassign ticket." })
+            } else res.status(404).json({ message: "Unable to find ticket" });
         })
-})
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ message: "Error updating the ticket." })
+        }) :
+        res.status(400).json({ message: "Ticket updating restricted to techs." });
+});
 
 // RESOLVE TICKET
 // @route PUT api/users/tickets/:id/resolve
@@ -158,34 +203,6 @@ router.put('/ticket/:id/resolved', (req, res) => {
     } else res.status(400).json({ message: "Please add a solution to the resolved ticket." });
 });
 
-
-//reassigned tickets
-//@route /tickets/:id/reassign
-// @desc reassigned tickets
-// @access Private
-router.put('/tickets/:id/reassign', (req, res) => {
-    const { id } = req.params;
-    const userid = req.user.id;
-    req.user.role === 'tech' ? Users.findTicketById(id)
-        .then(ticket => {
-            if (ticket) {
-                if (ticket.techid === userid) {
-                    Tickets.update(id, { solution: null, assigned: false, resolved: false })
-                        .then(update => {
-                            Users.removeAsgTicket(id)
-                                .then(() => {
-                                    res.status(200).json(update)
-                                });
-                        });
-                } else res.status(400).json({ message: "Unable reassign ticket." })
-            } else res.status(404).json({ message: "Unable to find ticket" });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ message: "Error updating the ticket." })
-        }) :
-        res.status(400).json({ message: "Ticket updating restricted to techs." });
-});
 
 // @route Delete api/users/tickets/:id
 // @desc deletes tickets by id
