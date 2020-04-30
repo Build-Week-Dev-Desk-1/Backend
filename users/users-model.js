@@ -4,7 +4,7 @@ module.exports = {
     add,
     assignTicket,
     findUser,
-    findTickets,
+    //findTickets,
     findBy,
     findById,
     findStudent,
@@ -34,7 +34,7 @@ async function findStudent(id) {
     return await db('stud_tickets as st')
         .where('studentid', id)
         .join('tickets as t', 'st.ticketid', 't.id')
-        .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category', 't.solution');
+        .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category');
 }
 //////
 
@@ -56,6 +56,12 @@ async function assignTicket(techid, ticketid) {
         .then(() => findAssignedTickets(ticketid));
 }
 
+async function findAssignedTickets(id) {
+    return await db('asg_tickets as asg')
+        .where('techid', id)
+        .join('tickets as t', 'asg.ticketid', 't.id')
+        .select('asg.ticketid', 't.title', 't.description', 't.tried', 't.category');
+}
 
 function findStdTicketById(id) {
     return db('stud_tickets')
@@ -65,12 +71,6 @@ function findStdTicketById(id) {
 
 
 
-async function findTickets(id) {
-    return await db('asg_tickets as asg')
-        .where('techid', id)
-        .join('tickets as t', 'asg.ticketid', 't.id')
-        .select('asg.ticketid', 't.title', 't.description', 't.tried', 't.category', 't.solution');
-}
 
 
 
