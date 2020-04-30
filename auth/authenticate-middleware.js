@@ -12,11 +12,15 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization;
 
     if (token) {
-        jwt.verify(token, secret.jwtSecret, (err, decodeToken) => {
+        jwt.verify(token, secret.jwtSecret, (err, decodedToken) => {
             if (err) {
                 res.status(400).json({ message: 'cant pass' })
             } else {
-                req.user = { username: decodeToken.username }
+                req.user = {
+                    id: decodedToken.subject,
+                    username: decodedToken.username,
+                    role: decodedToken.role
+                }
                 next()
             }
         })

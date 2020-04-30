@@ -2,7 +2,7 @@ const express = require('express');
 const Tickets = require('./tickets-model.js');
 const router = express.Router();
 
-// @route GET api/tickets/
+// @route GET /tickets/
 // @desc get all tickets 
 // @access Private
 router.get('/', (req, res) => {
@@ -71,7 +71,7 @@ router.post('/', (req, res) => {
     const { title, description, tried, category } = req.body;
     if (req.user.role === 'student') {
         if (!title || !description || !tried || !category) {
-            res.status(400).json({ message: "Missing ticket parameters." });
+            res.status(400).json({ message: "Something is missing!!!" });
         } else Tickets.add(req.body)
             .then(ticket => {
                 Tickets.addToStudent(req.user.id, ticket.id)
@@ -81,9 +81,9 @@ router.post('/', (req, res) => {
             })
             .catch(err => {
                 console.log(err);
-                res.status(500).json({ message: "Error adding the ticket." })
+                res.status(500).json({ message: "Unable to add this ticket!!!" })
             })
-    } else res.status(400).json({ message: "Adding tickets restricted to students." })
+    } else res.status(400).json({ message: "Only students can do this feature!!!" })
 });
 
 

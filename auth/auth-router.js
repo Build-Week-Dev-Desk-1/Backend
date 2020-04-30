@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken"); // ----> npm i jsonwebtoken
 const Users = require("../users/users-model.js");
 const secrets = require("../api/secrets.js");
 
-//https://devdeskapi.herokuapp.com/api/auth/register
+//https://devdeskapi.herokuapp.com/auth/register
 router.post('/register', async(req, res) => {
     const { username, password, role } = req.body;
     if (role === 'tech' || role === 'student') {
@@ -35,39 +35,27 @@ router.post('/register', async(req, res) => {
 });
 
 
-//https://devdeskapi.herokuapp.com/api/auth/login
-router.post("/login", (req, res) => {
+//https://devdeskapi.herokuapp.com/auth/login
+router.post('/login', (req, res) => {
     let { username, password } = req.body;
-
-    // search for the user using the username
     Users.findBy({ username })
-        .then(([user]) => {
-            // if we find the user, then also check that passwords match
+        .first()
+        .then(user => {
             if (user && bcrypt.compareSync(password, user.password)) {
-
-                // let admin;
-                // user.admin ?
-                //     user.admin = true :
-                //     user.admin = false
-
-                // produce a token
                 const token = generateToken(user);
-
-                // send the token to the client
                 res.status(200).json({
-                    message: `Welcome to the users section, ${user.username}!, here is your token`,
-                    token,
+                    message: `Welcome ${user.username}!`,
                     id: user.id,
                     username: user.username,
-                    role: user.role
+                    role: user.role,
+                    token,
                 });
             } else {
-                res.status(401).json({ message: "You cannot pass!" });
+                res.status(401).json({ message: 'Invalid user credentials' });
             }
         })
         .catch(error => {
-            console.log(error);
-            res.status(500).json({ errorMessage: error.message });
+            res.status(500).json(error);
         });
 });
 
