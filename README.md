@@ -26,7 +26,7 @@
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
 | GET | /users            | Gets all users     |  Output `{"id", "username":"", "email", "password", "role"}`|
-| GET | /users/ticket      | Gets user by ID    | Ouput `{"id", "title":"", "description", "tried", "category", "solution", "assigned", "resolve"}`|
+| GET | /users/ticket      | Gets user by ID    | Ouput `{"id", "title":"", "description", "tried", "category", "solution", "assigned", "resolved"}`|
 | GET | /users/:id      | Gets user by ID    | Output `{"id", "username":"", "email", "password", "role"}`|
 | POST | /users/ticket/:id/asgn | Adds ticket to a user by id. only techs can assign tickets  |  Expects `{"id"}`|
 | POST | /users/ticket/:id/resolved | resolves ticket to a user by id. only techs can assign tickets  |  Expects `{"id"}`|
@@ -48,35 +48,32 @@
 
 # `Tickets` Table
 
-- Post a new ticket
+- Add a new ticket
 - Obtain list of tickets and ticket by id
+- Get list of open and closed tickets
 - Update ticket by id
 - Delete ticket by id
 
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
-| GET | /api/tickets/ | Get all tickets.   |  Output `{"id", "userid", "title", "description", "completed" }`|
+| GET | /tickets/ | Lists all tickets.   |  Output `{"id", "userid", "title", "description", "completed" }`|
+| POST | /tickets/      | Adds a new ticket    |Ouput `{"title":"", "description", "tried", "category"}`|
+| GET | /tickets/open      | Lists open tickets    |Ouput `{"id", "title":"", "description", "tried", "category", "solution", "assigned", "resolved"}`|
+| GET | /tickets/closed      | Lists closed tickets    |Ouput `{"title":"", "description", "tried", "category"}`|
+| GET | /tickets/:id    | Gets a ticket by id.   |  Expects `{"id", "title":"", "description", "tried", "category", "solution", "assigned", "resolved"}`|
+| PUT | /tickets/:id | Updates a ticket by id.   |  Expects `{"id", }`|
+| DELETE | /tickets/:id | Deletes a ticket by id.   |  Expects `{"id" no user information on body}`|
 
-
-
-| POST | /api/tickets/      | Creates ticket    |Expects `{"id", "userid", "title", "description", "completed", "assigned" }`|
-
-
-
-
-| GET | /api/tickets/:id    | Gets a ticket by id.   |  Expects `{"id","userid", "title", "description", "completed", "assigned" }`|
-| PUT | /api/tickets/:id | Updates a ticket by id.   |  Expects `{no user information on body}`|
-| DELETE | api/tickets/:id | Deletes a ticket by id.   |  Expects `{no user information on body}`|
 
 -- title, description, what I've tried, category 
 
 
--- Gets and Posts new ticket https://devdeskapi.herokuapp.com/api/tickets/
+-- Gets and Posts new ticket https://devdeskapi.herokuapp.com/tickets/
 
--- Gets, Updates, Deletes ticket by id https://devdeskapi.herokuapp.com/api/tickets/1
+-- Gets, Updates, Deletes ticket by id https://devdeskapi.herokuapp.com/tickets/1
 
--- Gets tickets list https://devdeskapi.herokuapp.com/api/tickets
+-- Gets tickets list https://devdeskapi.herokuapp.com/tickets
 
--- Updates tickets by id https://devdeskapi.herokuapp.com/api/tickets/1
+-- Updates tickets by id https://devdeskapi.herokuapp.com/tickets/1
 
--- Deletes tickets by id https://devdeskapi.herokuapp.com/api/tickets/10
+-- Deletes tickets by id https://devdeskapi.herokuapp.com/tickets/10
