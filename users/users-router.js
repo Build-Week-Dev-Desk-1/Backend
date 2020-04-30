@@ -125,11 +125,11 @@ router.post('/ticket/:id/asgn', (req, res) => {
 router.put('/tickets/:id/reassign', (req, res) => {
     const { id } = req.params;
     const userid = req.user.id;
-    req.user.role === 'tech' ? Users.findTicketById(id)
+    req.user.role === 'tech' ? Users.findAssignedTicketById(id)
         .then(ticket => {
             if (!ticket) {
                 if (ticket.techid === userid) {
-                    Tickets.assignTicket(id, { solution: null, assigned: false, resolved: false })
+                    Tickets.update(id, { solution: null, assigned: false, resolved: false })
                         .then(update => {
                             Users.removeAsgTicket(id)
                                 .then(() => {

@@ -18,13 +18,9 @@ module.exports = {
 
 };
 
-
-
 function findUser() {
     return db('users').select('id', 'username', 'email', 'role');
 }
-
-
 
 function findBy(filter) {
     return db("users").where(filter);
@@ -36,15 +32,9 @@ async function findStudent(id) {
         .join('tickets as t', 'st.ticketid', 't.id')
         .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category');
 }
-//////
 
-
-
-
-
-
-async function findAssignedTicketById(ticketid) {
-    return await db('asg_tickets')
+function findAssignedTicketById(ticketid) {
+    return db('asg_tickets')
         .select('id', 'techid', 'ticketid')
         .where({ ticketid })
         .first();
@@ -76,38 +66,18 @@ function findStdTicketById(id) {
 }
 
 
-
-
-
-
-
-//////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
 function add(user) {
     return db('users').insert(user).then(ids => { const [id] = ids; return findById(id); });
 }
-
-
-
 
 function findById(id) {
     return db('users')
         .select('id', 'username', 'role').where({ id }).first();
 }
 
-
-async function removeAsgTicket(ticket_id) {
+async function removeAsgTicket(ticketid) {
     return await db('asg_tickets')
-        .where({ ticket_id })
+        .where({ ticketid })
         .del();
 }
 async function removeTicket(ticketid) {
