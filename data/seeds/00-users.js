@@ -4,28 +4,30 @@ exports.seed = function(knex) {
         .then(function() {
             // Inserts seed entries
             return knex('users').insert([{
-                    //userid: '1',
+
                     username: 'EliasAdmin',
                     password: 'ammotek',
+                    email: "test1@gmail.com",
                     role: 'tech',
 
                 },
                 {
-                    //userid: '2',
+
                     username: 'RobbieUser',
                     password: 'password',
+                    email: "test2@gmail.com",
                     role: 'student',
                 },
                 {
-                    //userid: '3',
+
                     username: 'TonyUser',
                     password: 'password2',
                     email: 'test3@gmail.com',
                     role: 'student',
                 },
                 {
-                    //userid: '3',
-                    username: 'Claudis',
+
+                    username: 'Claudia',
                     password: 'password3',
                     email: 'test4@gmail.com',
                     role: 'student',
