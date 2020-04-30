@@ -11,9 +11,9 @@
 
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
-| POST | /auth/register | Registers new user. | Expects `{"username":", "password":", "role":"}`|
+| POST | /auth/register | Registers new user. | Expects `{"username":", "password", "email", "role":"}`|
 | POST | /auth/login    | Logs in a user.   |  Expects `{"username":"", "password":""}`|
-| POST | /auth/register | Registers new user. | Output `{"username":", "password":", "role":"}`|
+
 
 # `Users` Table
 
