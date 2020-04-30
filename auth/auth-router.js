@@ -6,16 +6,14 @@ const Users = require("../users/users-model.js");
 const secrets = require("../api/secrets.js");
 
 //https://devdeskapi.herokuapp.com/auth/register
-router.post('/register', async(req, res) => {
+router.post('/register', (req, res) => {
     const { username, password, role } = req.body;
     if (role === 'tech' || role === 'student') {
-
         if (username && password && role) {
             let user = req.body;
             const hash = bcrypt.hashSync(user.password, 10);
             user.password = hash;
-
-            await Users.add(user)
+            return Users.add(user)
                 .then(saved => {
                     const token = generateToken(saved);
                     res.status(201).json({
