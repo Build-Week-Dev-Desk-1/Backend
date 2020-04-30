@@ -92,35 +92,6 @@ router.get('/ticket', Restricted, (req, res) => {
     } else res.status(400).json({ message: "Please specify the user role!!" });
 })
 
-
-//Assign a ticket to user
-// @route POST users/ticket/:id/asgn
-// @desc Adding ticket to User
-// @access 
-// router.post('/ticket/:id/asgn', (req, res) => {
-//     const techid = req.user.id;
-//     const { id } = req.params;
-//     req.user.role === 'tech' ? Users.findAssignedTicketById(id)
-//         .then(ticket => {
-//             if (!ticket) {
-//                 Users.assignTicket(techid, id)
-//                     .then(ticket => {
-//                         Tickets.update(id, { assigned: true })
-//                         res.status(200).json(ticket);
-//                     })
-//                     .catch(err => {
-//                         console.log(err);
-//                         res.status(500).json({ message: "Unable to assign ticket." })
-//                     })
-//             } else res.status(400).json({ message: "This ticket has already been assigned." })
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).json({ message: "There is an error on assigning ticket." })
-//         }) :
-//         res.status(400).json({ message: "Ticket assignment restricted to techs only." });
-// });
-
 router.post('/ticket/:id/asgn', (req, res) => {
     const techid = req.user.id;
     const { id } = req.params;

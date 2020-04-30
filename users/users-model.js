@@ -53,14 +53,20 @@ async function findAssignedTicketById(ticketid) {
 async function assignTicket(techid, ticketid) {
     return await db('asg_tickets')
         .insert({ techid, ticketid }, 'id')
-        .then(() => findAssignedTickets(ticketid));
+        .then(() => findAssignedTickets(techid));
 }
 
 async function findAssignedTickets(id) {
-    return await db('asg_tickets as asg')
+    return await db('asg_tickets as at')
         .where('techid', id)
-        .join('tickets as t', 'asg.ticketid', 't.id')
-        .select('asg.ticketid', 't.title', 't.description', 't.tried', 't.category');
+        .join('tickets as t', 'at.ticketid', 't.id')
+        .select(
+            'at.ticketid',
+            't.title',
+            't.description',
+            't.tried',
+            't.category'
+        );
 }
 
 function findStdTicketById(id) {
