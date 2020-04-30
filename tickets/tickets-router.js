@@ -72,6 +72,7 @@ router.get('/closed', (req, res) => {
 
 router.post('/', (req, res) => {
     const { title, description, tried, category } = req.body;
+
     if (req.user.role === 'student') {
         if (!title || !description || !tried || !category) {
             res.status(400).json({ message: "Something is missing!!!" });

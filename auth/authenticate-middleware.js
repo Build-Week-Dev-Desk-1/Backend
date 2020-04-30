@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
                 res.status(400).json({ message: 'cant pass' })
             } else {
                 req.user = {
-                    id: decodedToken.subject,
+                    id: decodedToken.userId,
                     username: decodedToken.username,
                     role: decodedToken.role
                 }

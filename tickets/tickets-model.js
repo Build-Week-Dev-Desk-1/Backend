@@ -32,11 +32,7 @@ function getBy(data) {
         .where({ data })
 }
 
-// async function add(ticket) {
-//     const [id] = await db('tickets').insert(ticket);
 
-//     return find(id);
-// }
 
 
 function addToStudent(studentid, ticketid) {
@@ -45,10 +41,13 @@ function addToStudent(studentid, ticketid) {
         .then(() => findById(ticketid));
 }
 
-async function add(ticket) {
-    const [id] = await db('tickets').insert(ticket);
+// function add(ticket) {
+//     const [id] = db('tickets').insert(ticket);
+//     return findById(id);
+// }
 
-    return findById(id);
+function add(ticket) {
+    return db('tickets').insert(ticket).then(ids => { const [id] = ids; return findById(id); });
 }
 
 async function update(id, changes) {

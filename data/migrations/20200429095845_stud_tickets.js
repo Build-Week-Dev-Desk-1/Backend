@@ -5,7 +5,7 @@ exports.up = function(knex) {
             tbl
                 .integer('studentid')
                 .unsigned()
-                .notNullable()
+                //.notNullable()
                 .references('id')
                 .inTable('users')
                 .onUpdate('CASCADE')
