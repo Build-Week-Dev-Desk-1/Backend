@@ -7,7 +7,6 @@ exports.seed = function(knex) {
                     //userid: '1',
                     username: 'EliasAdmin',
                     password: 'ammotek',
-                    email: 'eliastest@gmail.com',
                     role: 'tech',
 
                 },
@@ -15,7 +14,6 @@ exports.seed = function(knex) {
                     //userid: '2',
                     username: 'RobbieUser',
                     password: 'password',
-                    email: 'robbie@gmail.com',
                     role: 'student',
                 },
                 {
