@@ -4,6 +4,15 @@
 
 # `Dev Desk Backend API` 
 
+
+# `Auth Login`
+
+| HTTP | Path               | Desc                                   | Data|
+|-|-|-|-|
+| POST | /auth/register | Registers new user. | Expects `{"username":", "password":", "role":"}`|
+| POST | /auth/login    | Logs in a user.   |  Expects `{"username":"", "password":""}`|
+| POST | /auth/register | Registers new user. | Output `{"username":", "password":", "role":"}`|
+
 # `Users` Table
 - Register and Log in user
 - Ability to determine user as admin(helper) or student with boolean true || false
@@ -14,7 +23,7 @@
 
 | HTTP | Path               | Desc                                   | Data|
 |-|-|-|-|
-| POST | /api/auth/register | Registers new user. | Expects `{"username":", "password":", "role":"}`|
+
 | POST | /api/auth/login    | Logs in a user.   |  Expects `{"username":"", "password":""}`|
 | GET | /api/users            | Gets all users     |  Output `{"id", "username":"", "email", "password", "role"}`|
 | GET | /api/users/:id/      | Gets user by ID    | Ouput `{"id", "username":"", "email", "password", "role"}`|

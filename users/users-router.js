@@ -6,18 +6,28 @@ const Tickets = require("../tickets/tickets-model.js");
 //const secrets = require("../api/secrets.js");
 const Restricted = require('../auth/authenticate-middleware.js');
 
-// @route GET api/users/
+// @route GET /users/
 // @desc Get all users information
 // @ access Private
 //https://devdeskapi.herokuapp.com/api/users
-router.get('/', Restricted, (req, res) => {
+// router.get('/', Restricted, (req, res) => {
+//     Users.findUser()
+//         .then(user => {
+//             console.log(user);
+//             res.json({ loggedInUser: req.username, user })
+//         })
+//         .catch(err => {
+//             res.status(500).json({ message: "Error retrieving these users", err })
+//         })
+// });
+
+router.get('/', (req, res) => {
     Users.findUser()
-        .then(user => {
-            console.log(user);
-            res.json({ loggedInUser: req.username, user })
+        .then(users => {
+            res.json(users)
         })
         .catch(err => {
-            res.status(500).json({ message: "Error retrieving these users", err })
+            res.json(err)
         })
 });
 // @route GET api/users/:id/4
@@ -41,10 +51,10 @@ router.get('/', Restricted, (req, res) => {
 
 
 //Assign a ticket to user
-// @route POST api/users/add/:id/ticket
+// @route POST users/ticket/:id/asgn
 // @desc Adding ticket to User
 // @access 
-router.post('/add/:id/ticket', (req, res) => {
+router.post('/ticket/:id/asgn', (req, res) => {
     const techid = req.user.id;
     const { id } = req.params;
     req.user.role === 'tech' ?
