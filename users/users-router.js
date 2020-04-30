@@ -1,9 +1,9 @@
 const router = require("express").Router();
 //const bcrypt = require("bcryptjs");
 const Users = require("./users-model.js");
-const Tickets = require("./tickets-model.js");
+const Tickets = require("../tickets/tickets-model.js");
 //const jwt = require("jsonwebtoken");
-// const secrets = require("../api/secrets.js");
+//const secrets = require("../api/secrets.js");
 const Restricted = require('../auth/authenticate-middleware.js');
 
 // @route GET api/users/
@@ -11,38 +11,38 @@ const Restricted = require('../auth/authenticate-middleware.js');
 // @ access Private
 //https://devdeskapi.herokuapp.com/api/users
 router.get('/', Restricted, (req, res) => {
-    Users.find()
+    Users.findUser()
         .then(user => {
             console.log(user);
             res.json({ loggedInUser: req.username, user })
         })
         .catch(err => {
-            res.status(500).json({ message: "Error retrieving this users", err })
+            res.status(500).json({ message: "Error retrieving these users", err })
         })
 });
 // @route GET api/users/:id/4
 // @desc Get all users informatin
 // @ access Private
 //https://devdeskapi.herokuapp.com/api/users/id
-router.get('/:id', Restricted, (req, res) => {
-    Users.findById(req.params.id)
-        .then(user => {
-            if (user) {
-                res.json(user)
-            } else {
-                res.status(404).json({ message: "The user with the specified ID does not exist" })
-            }
-        })
-        .catch(err => {
-            res.status(500).json({ message: "Could not get user", err })
-        })
-})
+// router.get('/:id', Restricted, (req, res) => {
+//     Users.findById(req.params.id)
+//         .then(user => {
+//             if (user) {
+//                 res.json(user)
+//             } else {
+//                 res.status(404).json({ message: "The user with the specified ID does not exist" })
+//             }
+//         })
+//         .catch(err => {
+//             res.status(500).json({ message: "Could not get user", err })
+//         })
+// })
 
 
 
 //Assign a ticket to user
 // @route POST api/users/add/:id/ticket
-// @desc Assings ticket to User
+// @desc Adding ticket to User
 // @access 
 router.post('/add/:id/ticket', (req, res) => {
     const techid = req.user.id;
@@ -77,7 +77,7 @@ router.post('/add/:id/ticket', (req, res) => {
 // @route GET api/users/ticket
 // @desc GET User
 // @access Private
-router.get('/ticket', (req, res) => {
+router.get('/ticket', Restricted, (req, res) => {
     const userid = req.user.id;
     if (req.user.role === 'student') {
         Users.findStudent(userid)
@@ -106,7 +106,7 @@ router.get('/ticket', (req, res) => {
 // @desc Update User
 // @access Private
 //https://devdeskapi.herokuapp.com/api/users/:id/4
-router.put('/:id', Restricted, (req, res) => {
+router.put('/:id', (req, res) => {
     Users.change(req.body, req.params.id)
         .then(user => {
             if (user) {
@@ -180,7 +180,7 @@ router.put('/tickets/:id/reassign', (req, res) => {
 // @route Delete api/users/tickets/:id
 // @desc deletes tickets by id
 // @access Private
-//https://devdeskapi.herokuapp.com/api/users/:id/2
+//https://devdeskapi.herokuapp.com/api/users/tickets/:id/
 router.delete('/tickets/:id', Restricted, (req, res) => {
     const { id } = req.params;
     const userid = req.user.id;

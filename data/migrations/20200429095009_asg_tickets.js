@@ -1,6 +1,6 @@
 exports.up = function(knex) {
     return knex.schema
-        .createTable('assigned', tbl => {
+        .createTable('asg_tickets', tbl => {
             tbl.increments();
             tbl
                 .integer('techid')
@@ -23,5 +23,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('assigned');
+    return knex.schema.dropTableIfExists('asg_tickets');
 };

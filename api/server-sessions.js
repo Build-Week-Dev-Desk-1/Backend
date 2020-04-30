@@ -41,7 +41,7 @@ server.use(session(sessionConfig));
 
 server.use("/api/auth", authRouter);
 server.use("/api/users", authenticator, usersRouter);
-server.use('/api/tickets', ticketsRouter);
+server.use('/api/tickets', authenticator, ticketsRouter);
 
 server.get("/", (req, res) => {
     res.json({ api: "up" });

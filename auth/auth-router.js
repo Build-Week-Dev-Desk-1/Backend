@@ -6,31 +6,36 @@ const Users = require("../users/users-model.js");
 const secrets = require("../api/secrets.js");
 
 //https://devdeskapi.herokuapp.com/api/auth/register
-router.post("/register", (req, res) => {
-        let user = req.body; // username, password
+router.post('/register', async(req, res) => {
+    const { username, password, role } = req.body;
+    if (role === 'tech' || role === 'student') {
+        try {
+            if (username && password && role) {
+                let user = req.body;
+                const hash = bcrypt.hashSync(user.password, 10);
+                user.password = hash;
 
-        // rounds are 2 to the N times
-        const rounds = process.env.HASH_ROUNDS || 14;
+                await Users.add(user)
+                    .then(saved => {
+                        const token = generateToken(saved);
+                        res.status(201).json({
+                            id: saved.id,
+                            username: saved.username,
+                            useremail: saved.email,
+                            role: saved.role,
+                            token
+                        })
+                    })
+            } else res.status(400).json({ message: "Missing some parameters" });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'cannot add this user', error });
+        }
+    } else res.status(400).json({ message: "Invalid role being sent" });
+});
 
-        // hash the user.password
-        const hash = bcrypt.hashSync(user.password, rounds);
 
-        // update the user to use the hash
-        user.password = hash;
-
-        Users.add(user)
-            .then(saved => {
-                const token = generateToken(saved)
-                res.status(201).json({ id: saved.id, username: saved.username, role: saved.role, token });
-            })
-            .catch(err => {
-                res.status(500).json({
-                    msg: "cannot an this user",
-                    err
-                })
-            })
-    })
-    //https://devdeskapi.herokuapp.com/api/auth/login
+//https://devdeskapi.herokuapp.com/api/auth/login
 router.post("/login", (req, res) => {
     let { username, password } = req.body;
 
@@ -41,9 +46,9 @@ router.post("/login", (req, res) => {
             if (user && bcrypt.compareSync(password, user.password)) {
 
                 // let admin;
-                user.admin ?
-                    user.admin = true :
-                    user.admin = false
+                // user.admin ?
+                //     user.admin = true :
+                //     user.admin = false
 
                 // produce a token
                 const token = generateToken(user);

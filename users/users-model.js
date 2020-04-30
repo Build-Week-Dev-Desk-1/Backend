@@ -3,7 +3,7 @@ const db = require("../data/dbConfig.js");
 module.exports = {
     add,
     addTicket,
-    find,
+    findUser,
     findTickets,
     findBy,
     findById,
@@ -19,13 +19,13 @@ module.exports = {
 
 
 async function addTicket(techid, ticketid) {
-    return await db('assigned')
+    return await db('asg_tickets')
         .insert({ techid, ticketid }, 'id')
         .then(() => findTickets(techid));
 }
 
-function find() {
-    return db('users').select('id', 'username', 'email', 'admin');
+function findUser() {
+    return db('users').select('id', 'username', 'email', 'role');
 }
 
 
@@ -36,35 +36,40 @@ function findBy(filter) {
 
 
 async function findTickets(id) {
-    return await db('assigned as asg')
+    return await db('asg_tickets as asg')
         .where('techid', id)
         .join('tickets as t', 'asg.ticketid', 't.id')
         .select('asg.ticketid', 't.title', 't.description', 't.tried', 't.category', 't.solution');
 }
 
 async function findStudent(id) {
-    return await db('students as st')
+    return await db('stud_tickets as st')
         .where('studentid', id)
         .join('tickets as t', 'st.ticketid', 't.id')
         .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category', 't.solution');
 }
 
 async function findStdTicketById(ticketid) {
-    return await db('students')
+    return await db('stud_tickets')
         .select('id', 'studentid', 'ticketid')
         .where({ ticketid })
         .first();
 }
+// async function add(user) {
+//     if (user.username && user.password && user.email && user.role) {
+//         const [id] = await db('users').insert(user, "id");
+//         return findById(id);
+//     } else {
+//         return ({ err: "Please check that all fields are sent." })
+//     }
+// }
 async function add(user) {
-    if (user.username && user.password && user.email) {
-        const [id] = await db('users').insert(user, "id");
-        return findById(id);
-    } else {
-        return ({ err: "Plese check that all fields are sent." })
-    }
+    const [id] = await db('users').insert(user);
+
+    return findById(id);
 }
 async function findTicketById(ticketid) {
-    return await db('assigned')
+    return await db('asg_tickets')
         .select('id', 'techid', 'ticketid')
         .where({ ticketid })
         .first();
@@ -76,12 +81,12 @@ function findById(id) {
 
 
 async function removeAsgTicket(ticket_id) {
-    return await db('assigned')
+    return await db('asg_tickets')
         .where({ ticket_id })
         .del();
 }
 async function removeTicket(ticketid) {
-    return await db('students')
+    return await db('stud_tickets')
         .where({ ticketid })
         .del();
 }

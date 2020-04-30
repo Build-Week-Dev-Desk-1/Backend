@@ -1,6 +1,7 @@
 const db = require('../data/dbConfig.js');
 module.exports = {
     addToStudent,
+    //addTicketToStudent,
     count,
     find,
     findBy,
@@ -17,12 +18,7 @@ function count() {
         .first()
 }
 
-function findById(id) {
-    return db('tickets')
-        .select('id', 'title', 'description', 'solution')
-        .where({ id })
-        .first();
-}
+
 
 function find(filter) {
     return db('tickets').where(filter);
@@ -37,20 +33,35 @@ function getBy(data) {
         .where({ data })
 }
 
+// async function add(ticket) {
+//     const [id] = await db('tickets').insert(ticket);
+
+//     return find(id);
+// }
+
+
+async function addToStudent(studentid, ticketid) {
+    return await db('stud_tickets')
+        .insert({ studentid, ticketid }, 'id')
+        .then(() => findById(ticketid));
+}
+
 async function add(ticket) {
-    return await db('tickets')
-        .insert(ticket, 'id')
-        .then(([id]) => findById(id));
+    const [id] = await db('tickets').insert(ticket);
+
+    return findById(id);
 }
 
 async function update(id, changes) {
     return await db('tickets')
         .where({ id }).update(changes).then(() => findById(id));
 }
-async function addToStudent(studentid, ticketid) {
-    return await db('students')
-        .insert({ studentid, ticketid }, 'id')
-        .then(() => findById(ticketid));
+
+function findById(id) {
+    return db('tickets')
+        .select('id', 'title', 'description')
+        .where({ id })
+        .first();
 }
 
 function remove(id) {

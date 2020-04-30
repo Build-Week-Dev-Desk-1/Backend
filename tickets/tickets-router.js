@@ -48,25 +48,43 @@ router.get('/closed', (req, res) => {
 // @route PUT api/tickets/newticket
 // @desc POST new ticket as a student
 // @access Private
-router.post('/newticket', (req, res) => {
-    const { title, description, tried, category } = req.body
+// router.post('/', (req, res) => {
+//     const { title, description, tried, category } = req.body
+//     if (req.user.role === 'student') {
+//         if (!title || !description || !tried || !category) {
+//             res.status(400).json({ message: "Missing ticket information." });
+//         } else Tickets.add(req.body)
+//             .then(ticket => {
+//                 Tickets.addToStudent(req.user.id, ticket.id)
+//                     .then(ticket => {
+//                         res.status(201).json(ticket);
+//                     })
+//             })
+//             .catch(err => {
+//                 console.log(err);
+//                 res.status(500).json({ message: "Unable to add this ticket." })
+//             })
+//     } else res.status(400).json({ message: "Only students can add a ticket." })
+// });
+
+router.post('/', (req, res) => {
+    const { title, description, tried, category } = req.body;
     if (req.user.role === 'student') {
         if (!title || !description || !tried || !category) {
-            res.status(400).json({ message: "Missing ticket information." });
+            res.status(400).json({ message: "Missing ticket parameters." });
         } else Tickets.add(req.body)
             .then(ticket => {
-                Tickets.addTicketToStudent(req.user.id, ticket.id)
+                Tickets.addToStudent(req.user.id, ticket.id)
                     .then(ticket => {
                         res.status(201).json(ticket);
                     })
             })
             .catch(err => {
                 console.log(err);
-                res.status(500).json({ message: "Unable to add this ticket." })
+                res.status(500).json({ message: "Error adding the ticket." })
             })
-    } else res.status(400).json({ message: "Only students can add a ticket." })
+    } else res.status(400).json({ message: "Adding tickets restricted to students." })
 });
-
 
 
 // @route GET api/tickets/:id/
@@ -86,7 +104,7 @@ router.get('/:id', (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).json({ message: "Could not get ticket" })
+            res.status(500).json({ message: "Could not get ticket", err })
         })
 })
 
