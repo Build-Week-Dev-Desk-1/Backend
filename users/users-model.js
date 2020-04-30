@@ -92,8 +92,8 @@ function findStdTicketById(id) {
 
 
 
-async function add(user) {
-    const [id] = await db('users').insert(user);
+function add(user) {
+    const [id] = db('users').insert(user);
     return findById(id);
 }
 
