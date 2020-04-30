@@ -21,7 +21,7 @@ router.post('/register', async(req, res) => {
                         res.status(201).json({
                             id: saved.id,
                             username: saved.username,
-                            useremail: saved.email,
+                            // useremail: saved.email,
                             role: saved.role,
                             token
                         })
@@ -47,6 +47,7 @@ router.post('/login', (req, res) => {
                     message: `Welcome ${user.username}!`,
                     id: user.id,
                     username: user.username,
+                    password: user.password,
                     role: user.role,
                     token,
                 });
