@@ -23,5 +23,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('students');
+    return knex.schema.dropTableIfExists('stud_tickets');
 };

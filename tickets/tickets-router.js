@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 
 
 
-// @route GET api/tickets/open
+// @route GET /tickets/open
 // @desc get OPEN tickets not assigned
 // @access Private
 router.get('/open', (req, res) => {
