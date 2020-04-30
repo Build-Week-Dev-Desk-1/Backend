@@ -5,6 +5,9 @@ const router = express.Router();
 // @route GET /tickets/
 // @desc get all tickets 
 // @access Private
+
+// user helper can see them all *****
+// student can see their own ***
 router.get('/', (req, res) => {
     Tickets.findBy()
         .then(tickets => {
