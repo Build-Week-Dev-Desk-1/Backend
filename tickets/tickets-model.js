@@ -39,8 +39,8 @@ function getBy(data) {
 // }
 
 
-async function addToStudent(studentid, ticketid) {
-    return await db('stud_tickets')
+function addToStudent(studentid, ticketid) {
+    return db('stud_tickets')
         .insert({ studentid, ticketid }, 'id')
         .then(() => findById(ticketid));
 }
