@@ -46,8 +46,8 @@ function findAssignedTickets(id) {
         );
 }
 
-function findAssignedTicketById(ticketid) {
-    return db('asg_tickets')
+async function findAssignedTicketById(ticketid) {
+    return await db('asg_tickets')
         .select('id', 'techid', 'ticketid')
         .where({ ticketid })
         .first();
@@ -78,11 +78,6 @@ function findStdTicketById(id) {
         .first();
 }
 
-
-// function add(user) {
-//     return db('users').insert(user).then(ids => { const [id] = ids; return findById(id); });
-// }
-
 async function add(user) {
     const [id] = await db('users').insert(user);
 
@@ -94,8 +89,8 @@ function findById(id) {
         .select('id', 'username', 'role').where({ id }).first();
 }
 
-async function removeAsgTicket(ticketid) {
-    return await db('asg_tickets')
+function removeAsgTicket(ticketid) {
+    return db('asg_tickets')
         .where({ ticketid })
         .del();
 }

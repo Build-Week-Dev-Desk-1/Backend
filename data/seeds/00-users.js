@@ -5,31 +5,39 @@ exports.seed = function(knex) {
             // Inserts seed entries
             return knex('users').insert([{
 
-                    username: 'EliasAdmin',
-                    password: 'ammotek',
+                    username: 'EliasAdmin1',
+                    password: 'ammotek1',
                     email: "test1@gmail.com",
-                    role: 'tech',
+                    role: 'helper',
+
+                },
+                {
+
+                    username: 'EliasAdmin2',
+                    password: 'ammotek2',
+                    email: "test2@gmail.com",
+                    role: 'helper',
 
                 },
                 {
 
                     username: 'RobbieUser',
                     password: 'password',
-                    email: "test2@gmail.com",
+                    email: "test3@gmail.com",
                     role: 'student',
                 },
                 {
 
                     username: 'TonyUser',
                     password: 'password2',
-                    email: 'test3@gmail.com',
+                    email: 'test4@gmail.com',
                     role: 'student',
                 },
                 {
 
                     username: 'Claudia',
                     password: 'password3',
-                    email: 'test4@gmail.com',
+                    email: 'test5@gmail.com',
                     role: 'student',
                 }
             ]);

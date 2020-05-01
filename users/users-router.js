@@ -89,7 +89,10 @@ router.get('/ticket', Restricted, (req, res) => {
 })
 
 //Restricted only to helpers/techs
-//localhost: 4000 / users / ticket / 7 / assign
+// make sure to place ticketid in the :id 2
+// body will require "id": 7 for techid
+//localhost: 4000 / users / ticket / 2 / assign
+
 router.post('/ticket/:id/assign', (req, res) => {
     const techid = req.user.id;
     const { id } = req.params;
@@ -114,39 +117,35 @@ router.post('/ticket/:id/assign', (req, res) => {
         res.status(400).json({ message: "Ticket assignment restricted to helpers only." });
 });
 
-
-//reassigned tickets
-//@route /tickets/:id/reassign
-// @desc reassigned tickets
-// @access Private
-//localhost: 4000 / users / tickets / 12 / reassign
-//////**********************/
+//reassigned tickets back to the que removes from users list.
+//localhost: 4000 / users / tickets / 4 / reassign
 router.put('/tickets/:id/reassign', (req, res) => {
     const { id } = req.params;
-    const userid = req.user.id;
-    req.user.role === 'helper' ? Users.findAssignedTicketById(id)
+    req.user.role === 'helper' ?
+        Users.findAssignedTicketById(id)
         .then(ticket => {
-            if (!ticket) {
-                if (ticket.techid === userid) {
-                    Tickets.update(id, { solution: null, assigned: false, resolved: false })
-                        .then(update => {
+            if (ticket) {
+                if (ticket.techid) {
+                    // Sets ticket assignment to false and deletes assigned ticket entry
+                    return Tickets.update(id, { assigned: false })
+                        .then(updatedTicket => {
                             Users.removeAsgTicket(id)
                                 .then(() => {
-                                    res.status(200).json(update)
+                                    res.status(200).json(updatedTicket)
                                 });
                         });
-                } else res.status(400).json({ message: "Unable reassign ticket." })
-            } else res.status(404).json({ message: "Unable to find ticket" });
+                } else res.status(400).json({ message: "Cannot reassign ticket if it is not assigned to you." })
+            } else res.status(404).json({ message: "Ticket not found." });
         })
         .catch(err => {
             console.log(err);
             res.status(500).json({ message: "Error updating the ticket." })
         }) :
-        res.status(400).json({ message: "Ticket updating restricted to helper." });
+        res.status(400).json({ message: "Ticket updating restricted to helpers." });
 });
 
 // RESOLVE TICKET
-// @route PUT api/users/tickets/:id/resolve
+// @route PUT api/users/tickets/:id/resolved
 // @desc Update User
 // @access Private
 router.put('/ticket/:id/resolved', (req, res) => {
@@ -175,7 +174,7 @@ router.put('/ticket/:id/resolved', (req, res) => {
 
 
 // @route Delete api/users/tickets/:id
-// @desc deletes tickets by id
+// @desc deletes tickets by id by the student
 // @access Private
 //https://devdeskapi.herokuapp.com/api/users/tickets/:id/
 router.delete('/tickets/:id', Restricted, (req, res) => {
