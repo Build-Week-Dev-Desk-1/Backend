@@ -96,10 +96,10 @@ router.get('/:id', (req, res) => {
 })
 
 // DELETE A TICKET
-// @route DELETE api/tickets/:id
+// @route DELETE /tickets/:id
 // @desc delete ticket by :id
 // @access Private
-//https: //devdeskapi.herokuapp.com/api/tickets/1
+//https: //devdeskapi.herokuapp.com/tickets/1
 //localhost:4000/tickets/1
 router.delete('/:id', (req, res) => {
     Tickets.remove(req.params.id)
