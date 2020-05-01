@@ -21,11 +21,11 @@ router.get('/', (req, res) => {
             res.json(err)
         })
 });
-// @route GET /users/:id/4
+// @route GET /users/getid/:id/4
 // @desc Get all users informatin
 // @ access Private
 //https: //devdeskapi.herokuapp.com/api/users/getid/:id
-//localhost: 4000 / users / 3
+//localhost:4000/users/getid/1
 router.get('/getid/:id', Restricted, (req, res) => {
     Users.findById(req.params.id)
         .then(user => {
@@ -40,27 +40,8 @@ router.get('/getid/:id', Restricted, (req, res) => {
         })
 })
 
-// @route PUT api/users/:id/1
-// @desc Update User
-// @access Private
-//https://devdeskapi.herokuapp.com/users/:id/4
-//localhost:4000/users/3
-// router.put('/:id', async(req, res) => {
-//         Users.add(req.body, req.params.id)
-//             .then(user => {
-//                 if (user) {
-//                     res.json({ message: "User Updated" })
-//                 } else {
-//                     res.status(404).json({ message: "User with specified ID does not exist" })
-//                 }
-//             })
-//             .catch(err => {
-//                 res.status(500).json({ message: "User could not be updated", err })
-//             })
-//     })
-//GET USERS TICKETS if student see only student tickets helpers
-// assigned to them. 
-// @route GET api/users/ticket
+
+
 //localhost:4000/users/ticket
 // @desc GET User tickets
 // @access Private
