@@ -134,7 +134,7 @@ router.put('/ticket/:id/resolved', (req, res) => {
     const userid = req.user.id;
     const { solution } = req.body;
     if (solution) {
-        req.user.role === 'helper' ? Users.findTicketById(id)
+        req.user.role === 'helper' ? Users.findAssignedTicketById(id)
             .then(ticket => {
                 if (ticket) {
                     if (ticket.techid === userid) {

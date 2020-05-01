@@ -85,7 +85,7 @@ router.get('/:id', (req, res) => {
                     tickets
                 })
             } else {
-                res.status(404).json({ message: "The log with the specified ID does not exist" })
+                res.status(404).json({ message: "The ticket with the specified ID does not exist" })
             }
         })
         .catch(err => {
