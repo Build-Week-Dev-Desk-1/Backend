@@ -42,7 +42,8 @@ function findAssignedTickets(id) {
             't.title',
             't.description',
             't.tried',
-            't.category'
+            't.category',
+            'solution'
         );
 }
 
