@@ -49,13 +49,13 @@ function addToStudent(studentid, ticketid) {
 // function add(ticket) {
 //     return db('tickets').insert(ticket).then(ids => { const [id] = ids; return findById(id); });
 // }
-
-function findById(id) {
-    return db('users')
-        .select('id', 'username', 'role')
-        .where({ id })
-        .first();
+// 
+async function add(ticket) {
+    return await db('tickets')
+        .insert(ticket, 'id')
+        .then(([id]) => findById(id));
 }
+
 async function update(id, changes) {
     return await db('tickets')
         .where({ id }).update(changes).then(() => findById(id));
