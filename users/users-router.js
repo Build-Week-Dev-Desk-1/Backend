@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
         })
 });
 // @route GET /users/getid/:id/4
-// @desc Get all users informatin
+// @desc Get user informatin by id
 // @ access Private
 //https: //devdeskapi.herokuapp.com/api/users/getid/:id
 //localhost:4000/users/getid/1
@@ -154,7 +154,7 @@ router.put('/ticket/:id/resolved', (req, res) => {
 });
 
 
-// @route Delete api/users/tickets/:id
+// @route Delete /users/tickets/:id
 // @desc deletes tickets by id by the student
 // @access Private
 //https://devdeskapi.herokuapp.com/api/users/tickets/:id/
