@@ -57,7 +57,7 @@ async function update(id, changes) {
 
 function findById(id) {
     return db('tickets')
-        .select('id', 'title', 'description')
+        .select('id', 'title', 'description', 'solution')
         .where({ id })
         .first();
 }
