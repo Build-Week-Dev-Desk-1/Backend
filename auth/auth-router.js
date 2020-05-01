@@ -11,7 +11,6 @@ const secrets = require("../api/secrets.js");
 router.post('/register', (req, res) => {
     const { username, password, email, role } = req.body;
     if (role === 'helper' || role === 'student') {
-
         if (username && password && email && role) {
             let user = req.body;
             const hash = bcrypt.hashSync(user.password, 10);
