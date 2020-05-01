@@ -46,10 +46,16 @@ function addToStudent(studentid, ticketid) {
 //     return findById(id);
 // }
 
-function add(ticket) {
-    return db('tickets').insert(ticket).then(ids => { const [id] = ids; return findById(id); });
-}
+// function add(ticket) {
+//     return db('tickets').insert(ticket).then(ids => { const [id] = ids; return findById(id); });
+// }
 
+function findById(id) {
+    return db('users')
+        .select('id', 'username', 'role')
+        .where({ id })
+        .first();
+}
 async function update(id, changes) {
     return await db('tickets')
         .where({ id }).update(changes).then(() => findById(id));
