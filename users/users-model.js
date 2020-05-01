@@ -3,8 +3,8 @@ const db = require("../data/dbConfig.js");
 module.exports = {
     add,
     assignTicket,
+    findAssignedTickets,
     findUser,
-    //findTickets,
     findBy,
     findById,
     findStudent,
@@ -18,30 +18,33 @@ module.exports = {
 
 };
 
-
-
 function findUser() {
     return db('users').select('id', 'username', 'email', 'role');
 }
-
-
 
 function findBy(filter) {
     return db("users").where(filter);
 }
 
-async function findStudent(id) {
-    return await db('stud_tickets as st')
+function findStudent(id) {
+    return db('stud_tickets as st')
         .where('studentid', id)
         .join('tickets as t', 'st.ticketid', 't.id')
         .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category');
 }
-//////
 
-
-
-
-
+function findAssignedTickets(id) {
+    return db('asg_tickets as at')
+        .where('techid', id)
+        .join('tickets as t', 'at.ticketid', 't.id')
+        .select(
+            'at.ticketid',
+            't.title',
+            't.description',
+            't.tried',
+            't.category'
+        );
+}
 
 async function findAssignedTicketById(ticketid) {
     return await db('asg_tickets')
@@ -75,39 +78,20 @@ function findStdTicketById(id) {
         .first();
 }
 
+async function add(user) {
+    const [id] = await db('users').insert(user);
 
-
-
-
-
-
-//////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-function add(user) {
-    return db('users').insert(user).then(ids => { const [id] = ids; return findById(id); });
+    return findById(id);
 }
-
-
-
 
 function findById(id) {
     return db('users')
         .select('id', 'username', 'role').where({ id }).first();
 }
 
-
-async function removeAsgTicket(ticket_id) {
-    return await db('asg_tickets')
-        .where({ ticket_id })
+function removeAsgTicket(ticketid) {
+    return db('asg_tickets')
+        .where({ ticketid })
         .del();
 }
 async function removeTicket(ticketid) {

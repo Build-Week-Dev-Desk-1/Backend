@@ -9,18 +9,9 @@ const Restricted = require('../auth/authenticate-middleware.js');
 // @route GET /users/
 // @desc Get all users information
 // @ access Private
-//https://devdeskapi.herokuapp.com/api/users
-// router.get('/', Restricted, (req, res) => {
-//     Users.findUser()
-//         .then(user => {
-//             console.log(user);
-//             res.json({ loggedInUser: req.username, user })
-//         })
-//         .catch(err => {
-//             res.status(500).json({ message: "Error retrieving these users", err })
-//         })
-// });
+//https://devdeskapi.herokuapp.com//users
 
+//localhost:4000/users
 router.get('/', (req, res) => {
     Users.findUser()
         .then(users => {
@@ -30,11 +21,12 @@ router.get('/', (req, res) => {
             res.json(err)
         })
 });
-// @route GET /users/:id/4
+// @route GET /users/getid/:id/4
 // @desc Get all users informatin
 // @ access Private
-//https: //devdeskapi.herokuapp.com/api/users/id
-router.get('/:id', Restricted, (req, res) => {
+//https: //devdeskapi.herokuapp.com/api/users/getid/:id
+//localhost:4000/users/getid/1
+router.get('/getid/:id', Restricted, (req, res) => {
     Users.findById(req.params.id)
         .then(user => {
             if (user) {
@@ -48,27 +40,12 @@ router.get('/:id', Restricted, (req, res) => {
         })
 })
 
-// @route PUT api/users/:id/1
-// @desc Update User
+
+
+//localhost:4000/users/ticket
+// @desc GET User tickets
 // @access Private
-//https://devdeskapi.herokuapp.com/users/:id/4
-router.put('/:id', (req, res) => {
-        Users.change(req.body, req.params.id)
-            .then(user => {
-                if (user) {
-                    res.json({ message: "User Updated" })
-                } else {
-                    res.status(404).json({ message: "User with specified ID does not exist" })
-                }
-            })
-            .catch(err => {
-                res.status(500).json({ message: "User could not be updated", err })
-            })
-    })
-    //GET USERS TICKETS
-    // @route GET api/users/ticket
-    // @desc GET User tickets
-    // @access Private
+//localhost:4000/users/
 router.get('/ticket', Restricted, (req, res) => {
     const userid = req.user.id;
     if (req.user.role === 'student') {
@@ -80,7 +57,7 @@ router.get('/ticket', Restricted, (req, res) => {
                 console.log(err);
                 res.status(500).json({ message: "Unable to get tickets!!" })
             })
-    } else if (req.user.role === 'tech') {
+    } else if (req.user.role === 'helper') {
         Users.findAssignedTickets(userid)
             .then(tickets => {
                 res.status(200).json(tickets)
@@ -92,10 +69,15 @@ router.get('/ticket', Restricted, (req, res) => {
     } else res.status(400).json({ message: "Please specify the user role!!" });
 })
 
-router.post('/ticket/:id/asgn', (req, res) => {
+//Restricted only to helpers/techs
+// make sure to place ticketid in the :id 2
+// body will require "id": 7 for techid
+//localhost: 4000 / users / ticket / 2 / assign
+
+router.post('/ticket/:id/assign', (req, res) => {
     const techid = req.user.id;
     const { id } = req.params;
-    req.user.role === 'tech' ? Users.findAssignedTicketById(id)
+    req.user.role === 'helper' ? Users.findAssignedTicketById(id)
         .then(ticket => {
             if (!ticket) {
                 Users.assignTicket(techid, id)
@@ -113,41 +95,38 @@ router.post('/ticket/:id/asgn', (req, res) => {
             console.log(err);
             res.status(500).json({ message: "Error assigning the ticket." })
         }) :
-        res.status(400).json({ message: "Ticket assignment restricted to techs only." });
+        res.status(400).json({ message: "Ticket assignment restricted to helpers only." });
 });
 
-
-//reassigned tickets
-//@route /tickets/:id/reassign
-// @desc reassigned tickets
-// @access Private
-//////**********************/
+//reassigned tickets back to the que removes from users list.
+//localhost: 4000 / users / tickets / 4 / reassign
 router.put('/tickets/:id/reassign', (req, res) => {
     const { id } = req.params;
-    const userid = req.user.id;
-    req.user.role === 'tech' ? Users.findTicketById(id)
+    req.user.role === 'helper' ?
+        Users.findAssignedTicketById(id)
         .then(ticket => {
-            if (!ticket) {
-                if (ticket.techid === userid) {
-                    Tickets.assignTicket(id, { solution: null, assigned: false, resolved: false })
-                        .then(update => {
+            if (ticket) {
+                if (ticket.techid) {
+                    // Sets ticket assignment to false and deletes assigned ticket entry
+                    return Tickets.update(id, { assigned: false })
+                        .then(updatedTicket => {
                             Users.removeAsgTicket(id)
                                 .then(() => {
-                                    res.status(200).json(update)
+                                    res.status(200).json(updatedTicket)
                                 });
                         });
-                } else res.status(400).json({ message: "Unable reassign ticket." })
-            } else res.status(404).json({ message: "Unable to find ticket" });
+                } else res.status(400).json({ message: "Cannot reassign ticket if it is not assigned to you." })
+            } else res.status(404).json({ message: "Ticket not found." });
         })
         .catch(err => {
             console.log(err);
             res.status(500).json({ message: "Error updating the ticket." })
         }) :
-        res.status(400).json({ message: "Ticket updating restricted to techs." });
+        res.status(400).json({ message: "Ticket updating restricted to helpers." });
 });
 
 // RESOLVE TICKET
-// @route PUT api/users/tickets/:id/resolve
+// @route PUT api/users/tickets/:id/resolved
 // @desc Update User
 // @access Private
 router.put('/ticket/:id/resolved', (req, res) => {
@@ -155,7 +134,7 @@ router.put('/ticket/:id/resolved', (req, res) => {
     const userid = req.user.id;
     const { solution } = req.body;
     if (solution) {
-        req.user.role === 'tech' ? Users.findTicketById(id)
+        req.user.role === 'helper' ? Users.findTicketById(id)
             .then(ticket => {
                 if (ticket) {
                     if (ticket.techid === userid) {
@@ -176,7 +155,7 @@ router.put('/ticket/:id/resolved', (req, res) => {
 
 
 // @route Delete api/users/tickets/:id
-// @desc deletes tickets by id
+// @desc deletes tickets by id by the student
 // @access Private
 //https://devdeskapi.herokuapp.com/api/users/tickets/:id/
 router.delete('/tickets/:id', Restricted, (req, res) => {

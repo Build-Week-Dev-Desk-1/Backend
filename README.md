@@ -1,4 +1,4 @@
-# Backend on Heroku APP
+# Backend on Heroku API
 
 # `Dev Desk Backend API` 
 
