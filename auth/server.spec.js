@@ -38,12 +38,12 @@ describe("server", function() {
 
     describe("POST /register", function() {
         beforeEach(async() => {
-            await db("users").truncate(); // empty the table and reset the id back to 1
+            await db("devdesk").truncate(); // empty the table and reset the id back to 1
         });
-
+        // need authentication
         it("return 201 on success", function() {
             return request(server)
-                .post("/register")
+                .post("/auth/register")
                 .send({ username: "elias", password: "letmein", email: "email2211@gmail.com", role: "helper" })
                 .then(res => {
                     expect(res.status).toBe(404);
@@ -52,7 +52,7 @@ describe("server", function() {
 
         it('should return a message saying "user created successfully"', function() {
             return request(server)
-                .post("/register")
+                .post("/auth/register")
                 .send({ username: "elias", password: "letmein", email: "email2211@gmail.com", role: "helper" })
                 .then(res => {
                     expect(res.body.message).toBe("User created successfully");
@@ -60,8 +60,9 @@ describe("server", function() {
         });
         describe("\nDB output checks", () => {
             it("should return an array", async() => {
-                await request(server).get('/users/').then(res => {
+                await request(server).get('/tickets/').then(res => {
                     expect(res.type).toMatch(/json/gi);
+                    //will not return need authentication
                 });
             });
         });
