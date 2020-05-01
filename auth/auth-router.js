@@ -13,11 +13,14 @@ router.post('/register', (req, res) => {
     if (role === 'helper' || role === 'student') {
         if (username && password && email && role) {
             let user = req.body;
+            const hash = bcrypt.hashSync(user.password, 10);
+            user.password = hash;
             return Users.add(user)
                 .then(saved => {
                     res.status(201).json({
                         id: saved.id,
                         username: saved.username,
+                        password: saved.password,
                         useremail: saved.email,
                         role: saved.role,
 

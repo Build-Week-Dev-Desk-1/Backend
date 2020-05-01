@@ -85,17 +85,33 @@ function findStdTicketById(id) {
 //     });
 // }
 
-function add(user) {
-    return db('users').insert(user, "id").then(ids => { const [id] = ids; return findById(id); }).catch(error => {
-        return res.status(500).json({ message: 'failed to add new user' });
-    });
-}
 
+
+// function add(user) {
+//     return db('users').insert(user, "id").then(ids => { const [id] = ids; return findById(id); }).catch(error => {
+//         return res.status(500).json({ message: 'failed to add new user' });
+//     });
+// }
+
+
+// function findById(id) {
+//     return db('users')
+//         .select('id', 'username', 'role').where({ id }).first();
+// }
+
+async function add(user) {
+    const [id] = await db('users').insert(user);
+
+    return findById(id);
+}
 
 function findById(id) {
     return db('users')
-        .select('id', 'username', 'role').where({ id }).first();
+        .select('id', 'username', 'role')
+        .where({ id })
+        .first();
 }
+
 
 function removeAsgTicket(ticketid) {
     return db('asg_tickets')
