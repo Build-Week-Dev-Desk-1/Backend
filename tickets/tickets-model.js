@@ -46,8 +46,14 @@ function addToStudent(studentid, ticketid) {
 //     return findById(id);
 // }
 
-function add(ticket) {
-    return db('tickets').insert(ticket).then(ids => { const [id] = ids; return findById(id); });
+// function add(ticket) {
+//     return db('tickets').insert(ticket).then(ids => { const [id] = ids; return findById(id); });
+// }
+// 
+async function add(ticket) {
+    return await db('tickets')
+        .insert(ticket, 'id')
+        .then(([id]) => findById(id));
 }
 
 async function update(id, changes) {
