@@ -30,7 +30,7 @@ function findStudent(id) {
     return db('stud_tickets as st')
         .where('studentid', id)
         .join('tickets as t', 'st.ticketid', 't.id')
-        .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category');
+        .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category', 'solution');
 }
 
 function findAssignedTickets(id) {
