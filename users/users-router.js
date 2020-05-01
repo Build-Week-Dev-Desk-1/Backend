@@ -139,8 +139,8 @@ router.put('/ticket/:id/resolved', (req, res) => {
                 if (ticket) {
                     if (ticket.techid === userid) {
                         Tickets.update(id, { solution, resolved: true })
-                            .then(update => {
-                                res.status(200).json(update)
+                            .then(updatedTicket => {
+                                res.status(200).json(updatedTicket)
                             });
                     } else res.status(400).json({ message: "Unable to resolve unassigned ticket." })
                 } else res.status(404).json({ message: "The ticket not found" });
