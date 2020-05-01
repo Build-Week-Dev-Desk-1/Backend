@@ -3,8 +3,8 @@ const db = require("../data/dbConfig.js");
 module.exports = {
     add,
     assignTicket,
+    findAssignedTickets,
     findUser,
-    //findTickets,
     findBy,
     findById,
     findStudent,
@@ -26,11 +26,24 @@ function findBy(filter) {
     return db("users").where(filter);
 }
 
-async function findStudent(id) {
-    return await db('stud_tickets as st')
+function findStudent(id) {
+    return db('stud_tickets as st')
         .where('studentid', id)
         .join('tickets as t', 'st.ticketid', 't.id')
         .select('st.ticketid', 't.title', 't.description', 't.tried', 't.category');
+}
+
+function findAssignedTickets(id) {
+    return db('asg_tickets as at')
+        .where('techid', id)
+        .join('tickets as t', 'at.ticketid', 't.id')
+        .select(
+            'at.ticketid',
+            't.title',
+            't.description',
+            't.tried',
+            't.category'
+        );
 }
 
 function findAssignedTicketById(ticketid) {

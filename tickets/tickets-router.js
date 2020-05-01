@@ -6,7 +6,8 @@ const router = express.Router();
 // @desc get all tickets 
 // @access Private
 
-// user helper can see them all *****
+// helper can see them all *****
+//localhost: 4000 / tickets / open
 // student can see their own ***
 router.get('/', (req, res) => {
     Tickets.findBy()
@@ -51,6 +52,7 @@ router.get('/closed', (req, res) => {
 // @route PUT api/tickets/newticket
 // @desc POST new ticket as a student
 // @access Private
+//localhost:4000/tickets
 router.post('/', (req, res) => {
     const { title, description, tried, category } = req.body;
     if (req.user.role === 'student') {
@@ -75,6 +77,7 @@ router.post('/', (req, res) => {
 // @desc get tickets by id 
 // @access Private
 //https: //devdeskapi.herokuapp.com/api/tickets/1
+//localhost:4000/tickets/1
 router.get('/:id', (req, res) => {
     Tickets.findById(req.params.id)
         .then(tickets => {
@@ -119,6 +122,7 @@ router.get('/:id', (req, res) => {
 // @desc delete ticket by :id
 // @access Private
 //https: //devdeskapi.herokuapp.com/api/tickets/1
+//localhost:4000/tickets/1
 router.delete('/:id', (req, res) => {
     Tickets.remove(req.params.id)
         .then(tickets => {
